@@ -33,7 +33,6 @@ namespace GM
 
         public GameObject playerPrefs;
 
-
         static NetworkManager _instance;
         public static NetworkManager getInstance
         {
@@ -277,10 +276,11 @@ namespace GM
                     if (v_user[i] != null)
                         if (v_user[i].myIdx == idx)
                         {
-                            v_user[i].proper = (PROPER)int.Parse(txt[1]);
+                            Debug.Log("asdf");
+                            v_user[i].proper = (PROPER)int.Parse(txt[2]);
+                            v_user[i].color = (COLOR)int.Parse(txt[3]);
+                            Debug.Log((COLOR)int.Parse(txt[3]));
                             v_user[i].SetUp();
-                            // 이때 캐릭터 변신
-                            break;
                         }
                 }
             }
@@ -297,6 +297,10 @@ namespace GM
                             break;
                         }
                 }
+            }
+            else if (txt[0].Equals("TIME"))
+            {
+                SGameMng.I.sTimer = string.Format("{0,00}:{1,00}", (180 - int.Parse(txt[1])) / 60, (180 - int.Parse(txt[1])) % 60);
             }
         }
         /**

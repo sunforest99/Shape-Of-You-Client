@@ -2,37 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public enum MOVE_CONTROL
-{
-    STOP,
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT,
-}
-public enum PROPER
-{
-    GENERAL,        // 일반인
-    POLICE,         // 경찰
-    THIEF           // 도둑
-}
 
 public class SPlayerMove : MonoBehaviour
 {
     public string nickName;
     public int myIdx = 0;
 
+    int nhp;
     public bool isPlayer = false;
     public Vector3 pos;
+    bool bcol;
+    public Color[] colorcls = null;
 
     public MOVE_CONTROL myMove = MOVE_CONTROL.STOP;
     public MOVE_CONTROL beforeMove = MOVE_CONTROL.STOP;
     public PROPER proper = PROPER.GENERAL;
+    public COLOR color = COLOR.WHITE;
 
     BoxCollider2D boxcol = null;
+    [SerializeField]
+    SpriteRenderer sprite = null;
 
     void Start()
     {
+        nhp = 1;
         SetUp();
         boxcol = GetComponent<BoxCollider2D>();
     }
@@ -74,11 +67,13 @@ public class SPlayerMove : MonoBehaviour
             //anim.Play("RIGHT");
             transform.Translate(Vector3.right * 4f * Time.deltaTime);
         }
-        if (Input.GetKey(KeyCode.Space) && proper.Equals(PROPER.POLICE))
+        if (Input.GetKeyDown(KeyCode.Space) && proper.Equals(PROPER.POLICE))
         {
+            Attack();
             GM.NetworkManager.getInstance.SendMsg(string.Format("ATTACK:{0}", myIdx));
             Debug.Log("attack down");
         }
+        Die();
     }
 
     /**
@@ -110,18 +105,41 @@ public class SPlayerMove : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag("Box"))
-            boxcol.isTrigger = false;
-        else
-            boxcol.isTrigger = true;
+        if (!proper.Equals(PROPER.POLICE))       // 경찰이 아닐때
+        {
+            if (col.CompareTag("Police"))
+            {
+                nhp = -1;
+                GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}", myIdx));
+            }
+            if (col.CompareTag("Box"))          // 박스랑 충돌할때
+                boxcol.isTrigger = false;
+            else
+                boxcol.isTrigger = true;
+        }
 
+        else if (!bcol && proper.Equals(PROPER.POLICE))
+        {
+            if (col.CompareTag("Box"))          // 박스랑 충돌할때
+                boxcol.isTrigger = false;
+            else
+                boxcol.isTrigger = true;
+        }
+        else if (bcol && proper.Equals(PROPER.POLICE))
+            boxcol.isTrigger = true;
     }
 
     public void SetUp()
     {
+        for (int i = 0; i < (int)COLOR.E_MAX; i++)
+        {
+            if (i == (int)color)
+                sprite.color = colorcls[i];
+        }
         if (proper.Equals(PROPER.POLICE))
         {
             gameObject.tag = "Police";
+            nhp = 10;
         }
         else if (proper.Equals(PROPER.THIEF))
             gameObject.tag = "Player";
@@ -134,18 +152,33 @@ public class SPlayerMove : MonoBehaviour
 
     public void Attack()
     {
-        StartCoroutine("Big");
+        nhp -= 1;
+        if (nhp >= 0)
+            StartCoroutine("Big");
+        else
+            GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}", myIdx));
     }
 
     IEnumerator Big()
     {
+        bcol = true;
         transform.localScale = new Vector2(2f, 2f);
         yield return new WaitForSeconds(1f);
         StartCoroutine("Small");
     }
     IEnumerator Small()
     {
+        bcol = false;
         transform.localScale = new Vector2(1f, 1f);
         yield return null;
+    }
+
+    void Die()
+    {
+        if (nhp <= 0)
+        {
+            gameObject.SetActive(false);
+            SGameMng.I.nDieCount = nhp;
+        }
     }
 }

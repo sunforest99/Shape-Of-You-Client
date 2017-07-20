@@ -1,10 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+public enum MOVE_CONTROL
+{
+    STOP,
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT,
+}
+public enum PROPER
+{
+    GENERAL,        // 일반인
+    POLICE,         // 경찰
+    THIEF           // 도둑
+}
+public enum COLOR
+{
+    WHITE,
+    GREEN,
+    YELLOW,
+    ORANGE,
+    BLU,
+    PURPLE,
+    RED,
+    GRAY,
+    BLACK,
+    E_MAX
+}
 public class SGameMng : MonoBehaviour
 {
-
     private static SGameMng _Instance = null;
 
     public static SGameMng I
@@ -26,6 +51,8 @@ public class SGameMng : MonoBehaviour
     [SerializeField]
     GameObject[] MapGame = null;
     public bool bPause;
+    public int nDieCount;
+    public string sTimer;
 
     public void MapCtrl(int nMapNum)
     {
