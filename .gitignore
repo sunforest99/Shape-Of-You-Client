@@ -2,7 +2,6 @@
 # Created by https://www.gitignore.io/api/unity,visualstudio
 
 ### Unity ###
-/[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
 /[Bb]uild/
