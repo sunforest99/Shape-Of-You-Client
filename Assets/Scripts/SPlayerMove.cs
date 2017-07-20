@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public enum MOVE_CONTROL
 {
     STOP,
@@ -9,6 +9,12 @@ public enum MOVE_CONTROL
     DOWN,
     LEFT,
     RIGHT,
+}
+public enum PROPER
+{
+    GENERAL,        // 일반인
+    POLICE,         // 경찰
+    THIEF           // 도둑
 }
 
 public class SPlayerMove : MonoBehaviour
@@ -21,6 +27,15 @@ public class SPlayerMove : MonoBehaviour
 
     public MOVE_CONTROL myMove = MOVE_CONTROL.STOP;
     public MOVE_CONTROL beforeMove = MOVE_CONTROL.STOP;
+    public PROPER proper = PROPER.GENERAL;
+
+    BoxCollider2D boxcol = null;
+
+    void Start()
+    {
+        SetUp();
+        boxcol = GetComponent<BoxCollider2D>();
+    }
 
     void Update()
     {
@@ -59,6 +74,11 @@ public class SPlayerMove : MonoBehaviour
             //anim.Play("RIGHT");
             transform.Translate(Vector3.right * 4f * Time.deltaTime);
         }
+        if (Input.GetKey(KeyCode.Space) && proper.Equals(PROPER.POLICE))
+        {
+            GM.NetworkManager.getInstance.SendMsg(string.Format("ATTACK:{0}", myIdx));
+            Debug.Log("attack down");
+        }
     }
 
     /**
@@ -87,5 +107,45 @@ public class SPlayerMove : MonoBehaviour
     void HideChat()
     {
         //chatText.text = "";
+    }
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.CompareTag("Box"))
+            boxcol.isTrigger = false;
+        else
+            boxcol.isTrigger = true;
+
+    }
+
+    public void SetUp()
+    {
+        if (proper.Equals(PROPER.POLICE))
+        {
+            gameObject.tag = "Police";
+        }
+        else if (proper.Equals(PROPER.THIEF))
+            gameObject.tag = "Player";
+
+        else if (proper.Equals(PROPER.GENERAL))
+        {
+            gameObject.tag = "General";
+        }
+    }
+
+    public void Attack()
+    {
+        StartCoroutine("Big");
+    }
+
+    IEnumerator Big()
+    {
+        transform.localScale = new Vector2(2f, 2f);
+        yield return new WaitForSeconds(1f);
+        StartCoroutine("Small");
+    }
+    IEnumerator Small()
+    {
+        transform.localScale = new Vector2(1f, 1f);
+        yield return null;
     }
 }

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SGameMng : MonoBehaviour {
+public class SGameMng : MonoBehaviour
+{
 
     private static SGameMng _Instance = null;
 
@@ -22,13 +23,18 @@ public class SGameMng : MonoBehaviour {
     {
         _Instance = this;
     }
-
+    [SerializeField]
+    GameObject[] MapGame = null;
     public bool bPause;
-    public int nPlayerRand;
 
-
-    public void Init()
+    public void MapCtrl(int nMapNum)
     {
-        nPlayerRand = Random.Range(0, 8);
+        for (int i = 0; i < MapGame.Length; i++)
+        {
+            if (i.Equals(nMapNum))
+                MapGame[i].SetActive(true);
+            else
+                MapGame[i].SetActive(false);
+        }
     }
 }
