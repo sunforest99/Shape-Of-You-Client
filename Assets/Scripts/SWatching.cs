@@ -6,7 +6,7 @@ public class SWatching : MonoBehaviour
 {
     void LateUpdate()
     {
-        if (SGameMng.I.nDieCount <= 0)
+        if (!SGameMng.I.bDie)
         {
             CameraMove();
         }

@@ -8,6 +8,7 @@ public class SPlayerMove : MonoBehaviour
     public string nickName;
     public int myIdx = 0;
 
+    public bool isLive = true;
     int nhp;
     public bool isPlayer = false;
     public Vector3 pos;
@@ -32,8 +33,9 @@ public class SPlayerMove : MonoBehaviour
 
     void Update()
     {
-        if (isPlayer)
+        if (isPlayer && isLive)
         {
+            transform.localRotation = Quaternion.identity;
             if (Input.GetKey(KeyCode.UpArrow)) myMove = MOVE_CONTROL.UP;
             else if (Input.GetKey(KeyCode.LeftArrow)) myMove = MOVE_CONTROL.LEFT;
             else if (Input.GetKey(KeyCode.RightArrow)) myMove = MOVE_CONTROL.RIGHT;
@@ -110,7 +112,6 @@ public class SPlayerMove : MonoBehaviour
             if (col.CompareTag("Police"))
             {
                 nhp = -1;
-                GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}", myIdx));
             }
             if (col.CompareTag("Box"))          // 박스랑 충돌할때
                 boxcol.isTrigger = false;
@@ -118,7 +119,7 @@ public class SPlayerMove : MonoBehaviour
                 boxcol.isTrigger = true;
         }
 
-        else if (!bcol && proper.Equals(PROPER.POLICE))
+        if (!bcol && proper.Equals(PROPER.POLICE))
         {
             if (col.CompareTag("Box"))          // 박스랑 충돌할때
                 boxcol.isTrigger = false;
@@ -126,7 +127,10 @@ public class SPlayerMove : MonoBehaviour
                 boxcol.isTrigger = true;
         }
         else if (bcol && proper.Equals(PROPER.POLICE))
+        {
             boxcol.isTrigger = true;
+            Debug.Log("asdf");
+        }
     }
 
     public void SetUp()
@@ -142,21 +146,24 @@ public class SPlayerMove : MonoBehaviour
             nhp = 10;
         }
         else if (proper.Equals(PROPER.THIEF))
+        {
             gameObject.tag = "Player";
+            nhp = 1;
+        }
 
         else if (proper.Equals(PROPER.GENERAL))
         {
             gameObject.tag = "General";
+            nhp = 1;
         }
     }
+
 
     public void Attack()
     {
         nhp -= 1;
         if (nhp >= 0)
             StartCoroutine("Big");
-        else
-            GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}", myIdx));
     }
 
     IEnumerator Big()
@@ -177,8 +184,9 @@ public class SPlayerMove : MonoBehaviour
     {
         if (nhp <= 0)
         {
+            GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}", myIdx));
             gameObject.SetActive(false);
-            SGameMng.I.nDieCount = nhp;
+            SGameMng.I.bDie = false;
         }
     }
 }

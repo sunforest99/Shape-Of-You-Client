@@ -51,8 +51,9 @@ public class SGameMng : MonoBehaviour
     [SerializeField]
     GameObject[] MapGame = null;
     public bool bPause;
-    public int nDieCount;
+    public bool bDie = true;
     public string sTimer;
+    public bool bStartCheck;
 
     public void MapCtrl(int nMapNum)
     {
