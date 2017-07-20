@@ -84,6 +84,8 @@ MonoBehaviour:
   pos: {x: 0, y: 0, z: 0}
   myMove: 0
   beforeMove: 0
+  proper: 0
+  blindImg: {fileID: 114275479638611426, guid: 9585f6a18d7917f469a0acf389715b3b, type: 2}
 --- !u!212 &212633651431204948
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -54,6 +54,7 @@ namespace GM
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 SendMsg("DEBUG");
+
             }
         }
 
@@ -262,14 +263,42 @@ namespace GM
             }
             else if (txt[0].Equals("START"))
             {
-
+                SGameMng.I.MapCtrl(int.Parse(txt[1]));
             }
             else if (txt[0].Equals("CHANGE"))
             {
 
             }
+            else if (txt[0].Equals("PROPER"))
+            {
+                int idx = int.Parse(txt[1]);
+                for (int i = 0; i < v_user.Count; i++)
+                {
+                    if (v_user[i] != null)
+                        if (v_user[i].myIdx == idx)
+                        {
+                            v_user[i].proper = (PROPER)int.Parse(txt[1]);
+                            v_user[i].SetUp();
+                            // 이때 캐릭터 변신
+                            break;
+                        }
+                }
+            }
+            else if (txt[0].Equals("ATTACK"))
+            {
+                Debug.Log("ATTACK MESSAGE");
+                for (int i = 0; i < v_user.Count; i++)
+                {
+                    if (v_user[i] != null)
+                        if (v_user[i].myIdx == int.Parse(txt[1]))
+                        {
+                            // 공격
+                            v_user[i].Attack();
+                            break;
+                        }
+                }
+            }
         }
-
         /**
          * @brief 기기에서 접속을 끊었을때 
          */

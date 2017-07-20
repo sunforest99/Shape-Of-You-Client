@@ -4,8 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Tagger
   - Box
+  - Police
+  - General
   layers:
   - Default
   - TransparentFX
