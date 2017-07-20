@@ -5,7 +5,6 @@ using UnityEngine;
 public enum MOVE_CONTROL
 {
     STOP,
-    DANCE,
     UP,
     DOWN,
     LEFT,
@@ -14,9 +13,8 @@ public enum MOVE_CONTROL
 
 public class SPlayerMove : MonoBehaviour
 {
-
-    //public TextMesh nickName;
-    //public TextMesh chatText;
+    public string nickName;
+    public int myIdx = 0;
 
     public bool isPlayer = false;
     public Vector3 pos;
@@ -26,8 +24,8 @@ public class SPlayerMove : MonoBehaviour
 
     void Update()
     {
-        //if (isPlayer)
-        //{
+        if (isPlayer)
+        {
             if (Input.GetKey(KeyCode.UpArrow)) myMove = MOVE_CONTROL.UP;
             else if (Input.GetKey(KeyCode.LeftArrow)) myMove = MOVE_CONTROL.LEFT;
             else if (Input.GetKey(KeyCode.RightArrow)) myMove = MOVE_CONTROL.RIGHT;
@@ -36,10 +34,10 @@ public class SPlayerMove : MonoBehaviour
 
             if (myMove != beforeMove)
             {
-                //GM.NetworkManager.getInstance.SendMsg(string.Format("MOVE:{0}:{1}:{2}", transform.position.x, transform.position.y, (int)myMove));
+                GM.NetworkManager.getInstance.SendMsg(string.Format("MOVE:{0}:{1}:{2}:{3}", myIdx, transform.position.x, transform.position.y, (int)myMove));
                 beforeMove = myMove;
             }
-        //}
+        }
 
         if (myMove == MOVE_CONTROL.UP)
         {
