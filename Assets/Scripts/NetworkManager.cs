@@ -25,16 +25,14 @@ namespace GM
         int port = 10000;               // 포트 번호, 서버포트와 같게 할 것
         byte[] buf = new byte[4096];
         int recvLen = 0;
-        public int myRoom = 0;
 
         public GameObject nowLoadingWindow;
 
         public string nickName;
-        //List<User> v_user = new List<User>();
+        List<SPlayerMove> v_user = new List<SPlayerMove>();
 
         public GameObject playerPrefs;
 
-       // public RoomManager _roomGM;
 
         static NetworkManager _instance;
         public static NetworkManager getInstance
@@ -49,6 +47,14 @@ namespace GM
         {
             DontDestroyOnLoad(this);
             _instance = this;
+        }
+
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SendMsg("DEBUG");
+            }
         }
 
         /**
@@ -75,7 +81,7 @@ namespace GM
                     StartCoroutine("PacketProc");
 
                     nowLoadingWindow.SetActive(true);
-                    SceneManager.LoadScene("Main");
+                    SceneManager.LoadScene("InGame");
                 }
                 catch (SocketException err)
                 {
@@ -119,17 +125,17 @@ namespace GM
          * @param pos 생성 위치
          * @param isPlayer 나 인가 아닌가
          */
-        public void CreateUser(string nickName, Vector3 pos, MOVE_CONTROL moveC, MOVE_CONTROL seeDir, bool isPlayer)
+        public void CreateUser(int idx, string nickName, Vector3 pos, MOVE_CONTROL moveC, bool isPlayer)
         {
             GameObject obj = Instantiate(playerPrefs, pos, Quaternion.identity) as GameObject;
-          //  User player = obj.GetComponent<User>();
+            SPlayerMove player = obj.GetComponent<SPlayerMove>();
 
-           // player.nickName.text = nickName;
-           // player.isPlayer = isPlayer;
-           // player.myMove = moveC;
-           // player.setDirection(seeDir);
+            player.myIdx = idx;
+            player.nickName = nickName;
+            player.isPlayer = isPlayer;
+            player.myMove = moveC;
 
-          //  v_user.Add(player);
+            v_user.Add(player);
         }
 
         /**
@@ -211,68 +217,56 @@ namespace GM
             }
             else if (txt[0].Equals("USER"))
             {
+                // 기존 유저를 생성할때 호출됨
                 /* nick, posX, posY, move_control, direction */
-                CreateUser(txt[1], new Vector3(float.Parse(txt[2]), float.Parse(txt[3]), 0), (MOVE_CONTROL)int.Parse(txt[4]), (MOVE_CONTROL)int.Parse(txt[5]), false);
+                CreateUser(int.Parse(txt[1]), txt[2], new Vector3(float.Parse(txt[3]), float.Parse(txt[4]), 0), (MOVE_CONTROL)int.Parse(txt[5]), false);
             }
             else if (txt[0].Equals("ADDUSER"))
             {
-                CreateUser(nickName, Vector3.zero, MOVE_CONTROL.STOP, MOVE_CONTROL.DOWN, true);
+                // 새로운 유저를 생성할때 호출됨
+                CreateUser(int.Parse(txt[1]), nickName, Vector3.zero, MOVE_CONTROL.STOP, true);
             }
             else if (txt[0].Equals("CHAT"))
             {
                 int idx = int.Parse(txt[1]);
-              //  v_user[idx].SetChatText(txt[2]);
+                //  v_user[idx].SetChatText(txt[2]);
             }
             else if (txt[0].Equals("MOVE"))
             {
                 int idx = int.Parse(txt[1]);
-             //   v_user[idx].transform.position = new Vector3(float.Parse(txt[2]), float.Parse(txt[3]), 0f);
-             //   v_user[idx].myMove = (MOVE_CONTROL)int.Parse(txt[4]);
-            }
-            else if (txt[0].Equals("CHANGE_ROOM"))
-            {
-                myRoom = int.Parse(txt[1]);
-
-                // 광장이 아닐때
-                if (!myRoom.Equals(0))
+                for (int i = 0; i < v_user.Count; i++)
                 {
-                    initRoom();
-                    SceneManager.LoadScene("Room");
-                }
-            }
-            else if (txt[0].Equals("FOUND_ROOM"))
-            {
-              //  _roomGM.makeGate(txt[1], txt[2], txt[3], txt[4], txt[5]);
-            }
-            else if (txt[0].Equals("ENTER_ROOM"))
-            {
-                if (txt[1].Equals("IN"))
-                {
-                //    myRoom = int.Parse(_roomGM.roomIdx);
-                  //  _roomGM.roomIdx = "";
-//
-                    // 방을 변경
-                    SendMsg(string.Format("CHANGE_ROOM:{0}", myRoom));
-                    initRoom();
-                    SceneManager.LoadScene("Room");
-                }
-                else if (txt[1].Equals("LIMIT"))
-                {
-                    myRoom = 0;
-            //        _roomGM.roomIdx = "";
-                }
-                else if (txt[1].Equals("MISS"))
-                {
-                    myRoom = 0;
-              //      _roomGM.roomIdx = "";
+                    if (v_user[i] != null)
+                        if (v_user[i].myIdx == idx)
+                        {
+                            v_user[i].transform.position = new Vector3(float.Parse(txt[2]), float.Parse(txt[3]), 0f);
+                            v_user[i].myMove = (MOVE_CONTROL)int.Parse(txt[4]);
+                            break;
+                        }
                 }
             }
             else if (txt[0].Equals("LOGOUT"))
             {
                 int idx = int.Parse(txt[1]);
 
-             //   Destroy(v_user[idx].gameObject);
-             //   v_user.RemoveAt(idx);
+                for (int i = 0; i < v_user.Count; i++)
+                {
+                    if (v_user[i] != null)
+                        if (v_user[i].myIdx == idx)
+                        {
+                            Destroy(v_user[i].gameObject);
+                            v_user.RemoveAt(i);
+                            break;
+                        }
+                }
+            }
+            else if (txt[0].Equals("START"))
+            {
+
+            }
+            else if (txt[0].Equals("CHANGE"))
+            {
+
             }
         }
 
@@ -283,33 +277,11 @@ namespace GM
         {
             if (socket != null && socket.Connected)
             {
-                // 광장이 아니였을 때
-                if (myRoom != 0)
-                    SendMsg(string.Format("OUT_ROOM:{0}", myRoom));
                 SendMsg("DISCONNECT");
                 Thread.Sleep(500);
                 socket.Close();
             }
             StopCoroutine("PacketProc");
-        }
-
-        /**
-         * @brief 방을 변경시킬때 초기화 해줘야 되는 부분
-         */
-        public void initRoom()
-        {
-          //  v_user.Clear();
-        }
-
-        /**
-         * @brief 방을 바뀌게 하였을때 호출할것 ( 바뀔 방의 정보를 가져와 새로고침하게 함 )
-         */
-        [Obsolete("changeRoom()는 씬 Awake()에서 SendMsg('LOGIN') 호출하는 형태로 변경됨 ( 사용 비추 )", true)]
-        public void changeRoom()
-        {
-          //  v_user.Clear();
-
-            SendMsg(string.Format("LOGIN:{0}", nickName));
         }
 
         /**
@@ -325,9 +297,17 @@ namespace GM
         /**
          * @brief 유저 이름 변경
          */
-        public void setNickName(string nickName)
+        public void setIpAddress(InputField address)
         {
-            this.nickName = nickName;
+            this.address = address.text;
+        }
+
+        /**
+         * @brief 유저 이름 변경
+         */
+        public void setNickName(InputField nickName)
+        {
+            this.nickName = nickName.text;
         }
 
         /**
