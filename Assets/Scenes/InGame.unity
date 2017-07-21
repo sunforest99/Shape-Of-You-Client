@@ -125,7 +125,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &18808917
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1145,7 +1145,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 34.300014, y: 0}
+  m_AnchoredPosition: {x: 34.30002, y: 0}
   m_SizeDelta: {x: -31.400026, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1184619285
@@ -1807,7 +1807,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: {fileID: 1527829987}
+  skill: {fileID: 0}
   BtnGame: {fileID: 18808916}
+  ResultGame: {fileID: 1478585415}
 --- !u!4 &1613386848 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4388421686367006, guid: 975cd8e06fcad9e438b53c4e21e084da,

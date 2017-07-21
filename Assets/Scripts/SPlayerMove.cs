@@ -14,6 +14,9 @@ public class SPlayerMove : MonoBehaviour
     public bool isPlayer = false;
     public Vector3 pos;
     public GameObject colGame = null;
+    public GameObject blindGame = null;
+    public bool bBlind;
+    float fSpeed;
     public Color[] colorcls = null;
 
     public MOVE_CONTROL myMove = MOVE_CONTROL.STOP;
@@ -28,6 +31,7 @@ public class SPlayerMove : MonoBehaviour
 
     void Start()
     {
+        fSpeed = 9f;
         nhp = 1;
         SetUp();
         WatchScrp = Camera.main.GetComponent<SWatching>();
@@ -38,7 +42,7 @@ public class SPlayerMove : MonoBehaviour
     {
         if (isPlayer && isLive)
         {
-            transform.localRotation = Quaternion.identity;
+            Blind();
             if (Input.GetKey(KeyCode.UpArrow)) myMove = MOVE_CONTROL.UP;
             else if (Input.GetKey(KeyCode.LeftArrow)) myMove = MOVE_CONTROL.LEFT;
             else if (Input.GetKey(KeyCode.RightArrow)) myMove = MOVE_CONTROL.RIGHT;
@@ -56,34 +60,37 @@ public class SPlayerMove : MonoBehaviour
                 Attack();
                 Debug.Log("attack down");
             }
+            if (nhp <= 0)
+            {
+                GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}", myIdx));
+            }
             WatchScrp.Move(this.transform);
         }
         if (isLive && nhp <= 0)
         {
             Debug.Log("PlayerDie");
-            GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}", myIdx));
             Die();
         }
 
         if (myMove == MOVE_CONTROL.UP)
         {
             //anim.Play("UP");
-            transform.Translate(Vector3.up * 9f * Time.deltaTime);
+            transform.Translate(Vector3.up * fSpeed * Time.deltaTime);
         }
         else if (myMove == MOVE_CONTROL.DOWN)
         {
             //anim.Play("DOWN");
-            transform.Translate(Vector3.down * 9f * Time.deltaTime);
+            transform.Translate(Vector3.down * fSpeed * Time.deltaTime);
         }
         else if (myMove == MOVE_CONTROL.LEFT)
         {
             //anim.Play("LEFT");
-            transform.Translate(Vector3.left * 9f * Time.deltaTime);
+            transform.Translate(Vector3.left * fSpeed * Time.deltaTime);
         }
         else if (myMove == MOVE_CONTROL.RIGHT)
         {
             //anim.Play("RIGHT");
-            transform.Translate(Vector3.right * 9f * Time.deltaTime);
+            transform.Translate(Vector3.right * fSpeed * Time.deltaTime);
         }
     }
 
@@ -197,6 +204,21 @@ public class SPlayerMove : MonoBehaviour
         if (nhp <= 0)
         {
             gameObject.SetActive(false);
+        }
+    }
+
+    void Blind()
+    {
+        if (proper == PROPER.POLICE && !bBlind)
+        {
+            blindGame.SetActive(true);
+            fSpeed = 0f;
+            bBlind = true;
+        }
+        if (SGameMng.I.sTimer.Equals("2:45"))
+        {
+            blindGame.SetActive(false);
+            fSpeed = 9f;
         }
     }
 }
