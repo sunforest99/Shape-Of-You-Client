@@ -51,6 +51,8 @@ public class SGameMng : MonoBehaviour
     [SerializeField]
     GameObject[] MapGame = null;
 
+    public SUi uiScrp;
+
     public bool bPause;
     public string sTimer;
     public bool bStartCheck;

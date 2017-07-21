@@ -8,15 +8,15 @@ public class SPlayerMove : MonoBehaviour
     public string nickName;
     public int myIdx = 0;
 
-    public bool bCameraMove;
     public bool isLive = true;
-    int nhp;
+    public int nhp;
     public bool isPlayer = false;
     public Vector3 pos;
     public GameObject colGame = null;
     public GameObject blindGame = null;
     public bool bBlind;
-    float fSpeed;
+    public GameObject SkillGame = null;
+    public float fSpeed;
     public Color[] colorcls = null;
 
     public MOVE_CONTROL myMove = MOVE_CONTROL.STOP;
@@ -42,6 +42,7 @@ public class SPlayerMove : MonoBehaviour
     {
         if (isPlayer && isLive)
         {
+            if (proper == PROPER.POLICE) { SGameMng.I.uiScrp.GetSkill(nhp.ToString()); }
             Blind();
             if (Input.GetKey(KeyCode.UpArrow)) myMove = MOVE_CONTROL.UP;
             else if (Input.GetKey(KeyCode.LeftArrow)) myMove = MOVE_CONTROL.LEFT;
@@ -49,7 +50,7 @@ public class SPlayerMove : MonoBehaviour
             else if (Input.GetKey(KeyCode.DownArrow)) myMove = MOVE_CONTROL.DOWN;
             else myMove = MOVE_CONTROL.STOP;
 
-            if (myMove != beforeMove)
+            if (myMove != beforeMove && !bBlind)
             {
                 GM.NetworkManager.getInstance.SendMsg(string.Format("MOVE:{0}:{1}:{2}:{3}", myIdx, transform.position.x, transform.position.y, (int)myMove));
                 beforeMove = myMove;
@@ -176,6 +177,7 @@ public class SPlayerMove : MonoBehaviour
         nhp -= 1;
         if (nhp >= 0)
             StartCoroutine("Big");
+        else nhp = 0;
     }
 
     IEnumerator Big()
@@ -211,6 +213,7 @@ public class SPlayerMove : MonoBehaviour
     {
         if (proper == PROPER.POLICE && !bBlind)
         {
+            SkillGame.SetActive(true);
             blindGame.SetActive(true);
             fSpeed = 0f;
             bBlind = true;
