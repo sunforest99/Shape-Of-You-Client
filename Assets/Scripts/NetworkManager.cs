@@ -30,7 +30,7 @@ namespace GM
         public GameObject nowLoadingWindow;
 
         public string nickName;
-        List<SPlayerMove> v_user = new List<SPlayerMove>();
+        public List<SPlayerMove> v_user = new List<SPlayerMove>();
 
         public GameObject playerPrefs;
 
@@ -363,16 +363,18 @@ namespace GM
             else if (txt[0].Equals("DONE"))
             {
                 Debug.Log("G DONE");
-                // 게임  끝남
-                for (int i = 0; i < v_user.Count; i++)
-                {
-                    if (v_user[i] != null)
-                    {
-                        v_user[i].gameObject.SetActive(true);
-                        v_user[i].transform.position = Vector2.zero;
-                        // 관전 상태 해제
-                    }
-                }
+                SGameMng.I.OpenResult((PROPER)int.Parse(txt[1]));
+
+                //// 게임  끝남
+                //for (int i = 0; i < v_user.Count; i++)
+                //{
+                //    if (v_user[i] != null)
+                //    {
+                //        v_user[i].gameObject.SetActive(true);
+                //        v_user[i].transform.position = Vector2.zero;
+                //        // 관전 상태 해제
+                //    }
+                //}
             }
             else if (txt[0].Equals("WAIT"))
             {
