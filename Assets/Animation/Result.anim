@@ -719,15 +719,15 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: 400
+        value: 640
         inSlope: 0
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
         time: 0.41666666
         value: 400
-        inSlope: 0
-        outSlope: 0
+        inSlope: -768
+        outSlope: -768
         tangentMode: 136
       - serializedVersion: 2
         time: 0.8333333
@@ -747,15 +747,15 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: -800
+        value: -1280
         inSlope: 0
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
         time: 0.41666666
         value: -800
-        inSlope: 0
-        outSlope: 0
+        inSlope: 1536
+        outSlope: 1536
         tangentMode: 136
       - serializedVersion: 2
         time: 0.8333333
@@ -775,15 +775,15 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: -800
+        value: -1280.0001
         inSlope: 0
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
         time: 0.41666666
         value: -800
-        inSlope: 0
-        outSlope: 0
+        inSlope: 1536.0002
+        outSlope: 1536.0002
         tangentMode: 136
       - serializedVersion: 2
         time: 0.8333333
@@ -803,7 +803,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: 0
+        value: 0.00024414062
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -1033,17 +1033,17 @@ AnimationClip:
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 1798237003
-      attribute: 2086281974
-      script: {fileID: 0}
-      typeID: 1
-      customType: 0
-      isPPtrCurve: 0
-    - serializedVersion: 2
       path: 665184143
       attribute: 1967290853
       script: {fileID: 0}
       typeID: 224
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 1798237003
+      attribute: 2086281974
+      script: {fileID: 0}
+      typeID: 1
       customType: 0
       isPPtrCurve: 0
     pptrCurveMapping: []
@@ -1167,15 +1167,15 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: 400
+        value: 640
         inSlope: 0
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
         time: 0.41666666
         value: 400
-        inSlope: 0
-        outSlope: 0
+        inSlope: -768
+        outSlope: -768
         tangentMode: 136
       - serializedVersion: 2
         time: 0.8333333
@@ -1195,15 +1195,15 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: -800
+        value: -1280
         inSlope: 0
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
         time: 0.41666666
         value: -800
-        inSlope: 0
-        outSlope: 0
+        inSlope: 1536
+        outSlope: 1536
         tangentMode: 136
       - serializedVersion: 2
         time: 0.8333333
@@ -1223,15 +1223,15 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: -800
+        value: -1280.0001
         inSlope: 0
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
         time: 0.41666666
         value: -800
-        inSlope: 0
-        outSlope: 0
+        inSlope: 1536.0002
+        outSlope: 1536.0002
         tangentMode: 136
       - serializedVersion: 2
         time: 0.8333333
@@ -1251,7 +1251,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: 0
+        value: 0.00024414062
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -3437,8 +3437,8 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_GenerateMotionCurves: 0
   m_Events:
-  - time: 5.016667
-    functionName: Reset
+  - time: 4.5
+    functionName: ResetFn
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

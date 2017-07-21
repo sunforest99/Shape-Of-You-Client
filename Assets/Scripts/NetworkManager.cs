@@ -205,6 +205,7 @@ namespace GM
                 }
                 catch (Exception ex)
                 {
+                    Debug.Log(Encoding.UTF8.GetString(this.buf, 2, BitConverter.ToInt16(this.buf, 0) - 2));
                     Debug.Log(ex.ToString());
                 }
                 yield return null;
@@ -241,8 +242,7 @@ namespace GM
             }
             else if (txt[0].Equals("CHAT"))
             {
-                int idx = int.Parse(txt[1]);
-                //  v_user[idx].SetChatText(txt[2]);
+                SGameMng.I._chat.chat(string.Format("[{0}] : {1}", txt[1], txt[2]));
             }
             else if (txt[0].Equals("MOVE"))
             {

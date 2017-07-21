@@ -31,6 +31,7 @@ public enum COLOR
 public class SGameMng : MonoBehaviour
 {
     private static SGameMng _Instance = null;
+    public ChatManager _chat;
 
     public static SGameMng I
     {
