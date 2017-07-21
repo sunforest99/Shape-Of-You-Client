@@ -7,6 +7,8 @@ TagManager:
   - Box
   - Police
   - General
+  - Pcolider
+  - DEnter
   layers:
   - Default
   - TransparentFX

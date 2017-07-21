@@ -172,34 +172,41 @@ namespace GM
         {
             while (true)
             {
-                if (socket.Connected)
-                    if (socket.Available > 0)
-                    {
-                        byte[] buf = new byte[4096];
-                        int nRead = socket.Receive(buf, socket.Available, 0);
-
-                        if (nRead > 0)
+                try
+                {
+                    if (socket.Connected)
+                        if (socket.Available > 0)
                         {
-                            Buffer.BlockCopy(buf, 0, this.buf, recvLen, nRead);
-                            recvLen += nRead;
+                            byte[] buf = new byte[4096];
+                            int nRead = socket.Receive(buf, socket.Available, 0);
 
-                            while (true)
+                            if (nRead > 0)
                             {
-                                int len = BitConverter.ToInt16(this.buf, 0);
+                                Buffer.BlockCopy(buf, 0, this.buf, recvLen, nRead);
+                                recvLen += nRead;
 
-                                if (len > 0 && recvLen >= len)
+                                while (true)
                                 {
-                                    ParsePacket(len);
-                                    recvLen -= len;
-                                    Buffer.BlockCopy(this.buf, len, this.buf, 0, recvLen);
-                                }
-                                else
-                                {
-                                    break;
+                                    int len = BitConverter.ToInt16(this.buf, 0);
+
+                                    if (len > 0 && recvLen >= len)
+                                    {
+                                        ParsePacket(len);
+                                        recvLen -= len;
+                                        Buffer.BlockCopy(this.buf, len, this.buf, 0, recvLen);
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
                                 }
                             }
                         }
-                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.Log(ex.ToString());
+                }
                 yield return null;
             }
         }
@@ -280,6 +287,7 @@ namespace GM
                         if (v_user[i].myIdx == idx)
                         {
                             v_user[i].color = (COLOR)int.Parse(txt[2]);
+                            v_user[i].ChangeColor();
                             break;
                         }
                 }
@@ -299,10 +307,10 @@ namespace GM
                             Debug.Log((PROPER)int.Parse(txt[2]));
                             if (v_user[i].proper.Equals(PROPER.POLICE))
                             {
-                                 SGameMng.I.policeCount++;
+                                SGameMng.I.policeCount++;
                                 SGameMng.I.policeCountTxt.text = SGameMng.I.policeCount + "";
                             }
-                            else 
+                            else
                             {
                                 SGameMng.I.thiefCount++;
                                 SGameMng.I.thiefCountTxt.text = SGameMng.I.thiefCount + "";
@@ -354,16 +362,22 @@ namespace GM
             }
             else if (txt[0].Equals("DONE"))
             {
+                Debug.Log("G DONE");
                 // 게임  끝남
                 for (int i = 0; i < v_user.Count; i++)
                 {
-                    if (v_user[i] !=null)
+                    if (v_user[i] != null)
                     {
                         v_user[i].gameObject.SetActive(true);
                         v_user[i].transform.position = Vector2.zero;
                         // 관전 상태 해제
                     }
                 }
+            }
+            else if (txt[0].Equals("WAIT"))
+            {
+                v_user[v_user.Count - 1].gameObject.SetActive(false);
+                v_user[v_user.Count - 1].isLive = false;
             }
         }
         /**

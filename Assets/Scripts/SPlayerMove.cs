@@ -8,6 +8,7 @@ public class SPlayerMove : MonoBehaviour
     public string nickName;
     public int myIdx = 0;
 
+    public bool bCameraMove;
     public bool isLive = true;
     int nhp;
     public bool isPlayer = false;
@@ -20,6 +21,7 @@ public class SPlayerMove : MonoBehaviour
     public PROPER proper = PROPER.GENERAL;
     public COLOR color = COLOR.WHITE;
 
+    SWatching WatchScrp = null;
     BoxCollider2D boxcol = null;
     [SerializeField]
     SpriteRenderer sprite = null;
@@ -28,6 +30,7 @@ public class SPlayerMove : MonoBehaviour
     {
         nhp = 1;
         SetUp();
+        WatchScrp = Camera.main.GetComponent<SWatching>();
         boxcol = GetComponent<BoxCollider2D>();
     }
 
@@ -47,35 +50,41 @@ public class SPlayerMove : MonoBehaviour
                 GM.NetworkManager.getInstance.SendMsg(string.Format("MOVE:{0}:{1}:{2}:{3}", myIdx, transform.position.x, transform.position.y, (int)myMove));
                 beforeMove = myMove;
             }
+            if (Input.GetKeyDown(KeyCode.Space) && proper.Equals(PROPER.POLICE))
+            {
+                GM.NetworkManager.getInstance.SendMsg(string.Format("ATTACK:{0}", myIdx));
+                Attack();
+                Debug.Log("attack down");
+            }
+            WatchScrp.Move(this.transform);
+        }
+        if (isLive && nhp <= 0)
+        {
+            Debug.Log("PlayerDie");
+            GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}", myIdx));
+            Die();
         }
 
         if (myMove == MOVE_CONTROL.UP)
         {
             //anim.Play("UP");
-            transform.Translate(Vector3.up * 4f * Time.deltaTime);
+            transform.Translate(Vector3.up * 9f * Time.deltaTime);
         }
         else if (myMove == MOVE_CONTROL.DOWN)
         {
             //anim.Play("DOWN");
-            transform.Translate(Vector3.down * 4f * Time.deltaTime);
+            transform.Translate(Vector3.down * 9f * Time.deltaTime);
         }
         else if (myMove == MOVE_CONTROL.LEFT)
         {
             //anim.Play("LEFT");
-            transform.Translate(Vector3.left * 4f * Time.deltaTime);
+            transform.Translate(Vector3.left * 9f * Time.deltaTime);
         }
         else if (myMove == MOVE_CONTROL.RIGHT)
         {
             //anim.Play("RIGHT");
-            transform.Translate(Vector3.right * 4f * Time.deltaTime);
+            transform.Translate(Vector3.right * 9f * Time.deltaTime);
         }
-        //if (Input.GetKeyDown(KeyCode.Space) && proper.Equals(PROPER.POLICE))
-        //{
-        //    Attack();
-        //    GM.NetworkManager.getInstance.SendMsg(string.Format("ATTACK:{0}", myIdx));
-        //    Debug.Log("attack down");
-        //}
-        Die();
     }
 
     /**
@@ -109,11 +118,17 @@ public class SPlayerMove : MonoBehaviour
     {
         if (!proper.Equals(PROPER.POLICE))       // 경찰이 아닐때
         {
+            if (col.CompareTag("Police") && col.GetComponent<SPlayerMove>().color == color)
+            {
+                nhp = -1;
+                WatchScrp.GetLive(isLive);
+            }
             if (col.CompareTag("Pcolider"))
             {
                 nhp = -1;
+                WatchScrp.GetLive(isLive);
             }
-            if (col.CompareTag("Box"))          // 박스랑 충돌할때
+            if (col.CompareTag("Box") || col.CompareTag("DEnter"))          // 박스랑 충돌할때
                 boxcol.isTrigger = false;
             else
                 boxcol.isTrigger = true;
@@ -121,7 +136,7 @@ public class SPlayerMove : MonoBehaviour
 
         else
         {
-            if (col.CompareTag("Box"))          // 박스랑 충돌할때
+            if (col.CompareTag("Box") || col.CompareTag("DEnter"))          // 박스랑 충돌할때
                 boxcol.isTrigger = false;
             else
                 boxcol.isTrigger = true;
@@ -130,11 +145,7 @@ public class SPlayerMove : MonoBehaviour
 
     public void SetUp()
     {
-        for (int i = 0; i < (int)COLOR.E_MAX; i++)
-        {
-            if (i == (int)color)
-                sprite.color = colorcls[i];
-        }
+        ChangeColor();
         if (proper.Equals(PROPER.POLICE))
         {
             gameObject.tag = "Police";
@@ -153,15 +164,12 @@ public class SPlayerMove : MonoBehaviour
         }
     }
 
-
     public void Attack()
     {
-        GM.NetworkManager.getInstance.SendMsg(string.Format("ATTACK:{0}", myIdx));
         nhp -= 1;
         if (nhp >= 0)
             StartCoroutine("Big");
     }
-
 
     IEnumerator Big()
     {
@@ -175,11 +183,19 @@ public class SPlayerMove : MonoBehaviour
         yield return null;
     }
 
+    public void ChangeColor()
+    {
+        for (int i = 0; i < (int)COLOR.E_MAX; i++)
+        {
+            if (i == (int)color)
+                sprite.color = colorcls[i];
+        }
+    }
+
     void Die()
     {
         if (nhp <= 0)
         {
-            GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}", myIdx));
             gameObject.SetActive(false);
         }
     }
