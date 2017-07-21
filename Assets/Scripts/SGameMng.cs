@@ -55,7 +55,7 @@ public class SGameMng : MonoBehaviour
     public bool bStartCheck;
     public int thiefCount = 0;
     public int policeCount = 0;
-
+    
     public UnityEngine.UI.Text thiefCountTxt;
     public UnityEngine.UI.Text policeCountTxt;
 
@@ -68,5 +68,69 @@ public class SGameMng : MonoBehaviour
             else
                 MapGame[i].SetActive(false);
         }
+    }
+
+    public UnityEngine.UI.Image p_1;
+    public UnityEngine.UI.Image[] p_2 = new UnityEngine.UI.Image[2];
+    public UnityEngine.UI.Image[] p_3 = new UnityEngine.UI.Image[3];
+    public UnityEngine.UI.Image[] p_4 = new UnityEngine.UI.Image[4];
+    public UnityEngine.UI.Image[] p_5 = new UnityEngine.UI.Image[5];
+    public UnityEngine.UI.Image[] p_6 = new UnityEngine.UI.Image[6];
+
+    [SerializeField]
+    Animator resultAnim;
+
+    public void OpenResult(PROPER whoWin)
+    {
+        int mC = 0;
+
+        for (int i = 0; i < GM.NetworkManager.getInstance.v_user.Count; i++)
+            if (GM.NetworkManager.getInstance.v_user[i] != null)
+                if (GM.NetworkManager.getInstance.v_user[i].proper.Equals(whoWin))
+                    mC++;
+
+
+        p_1.gameObject.SetActive(false);
+        for (int i = 0; i < 2; i++)
+            p_2[i].gameObject.SetActive(false);
+        for (int i = 0; i < 3; i++)
+            p_3[i].gameObject.SetActive(false);
+        for (int i = 0; i < 4; i++)
+            p_4[i].gameObject.SetActive(false);
+        for (int i = 0; i < 5; i++)
+            p_5[i].gameObject.SetActive(false);
+        for (int i = 0; i < 6; i++)
+            p_6[i].gameObject.SetActive(false);
+
+        if (mC.Equals(1))
+        {
+            p_1.gameObject.SetActive(true);
+        }
+        else if (mC.Equals(2))
+        {
+            for (int i = 0; i < 2; i++)
+                p_2[i].gameObject.SetActive(true);
+        }
+        else if (mC.Equals(3))
+        {
+            for (int i = 0; i < 3; i++)
+                p_3[i].gameObject.SetActive(true);
+        }
+        else if (mC.Equals(4))
+        {
+            for (int i = 0; i < 4; i++)
+                p_4[i].gameObject.SetActive(true);
+        }
+        else if (mC.Equals(5))
+        {
+            for (int i = 0; i < 5; i++)
+                p_5[i].gameObject.SetActive(true);
+        }
+        else if (mC.Equals(6))
+        {
+            for (int i = 0; i < 6; i++)
+                p_6[i].gameObject.SetActive(true);
+        }
+        resultAnim.SetTrigger("RESULT");
     }
 }
