@@ -56,6 +56,9 @@ public class SGameMng : MonoBehaviour
     public int thiefCount = 0;
     public int policeCount = 0;
 
+    public UnityEngine.UI.Text thiefCountTxt;
+    public UnityEngine.UI.Text policeCountTxt;
+
     public void MapCtrl(int nMapNum)
     {
         for (int i = 0; i < MapGame.Length; i++)

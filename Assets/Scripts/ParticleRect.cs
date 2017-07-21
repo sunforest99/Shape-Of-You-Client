@@ -6,16 +6,19 @@ public class ParticleRect : MonoBehaviour
 {
     Vector2 sPos;
     public float speed = 5;
-    float lTime = 0;
+    public float lTime = 0;
 
     float rot = 0;
 
     void Start()
     {
         sPos = transform.position;
-        //StartCoroutine(scaleBig());
-        //StartCoroutine(scaleSmall());
         rot = Random.Range(-3f, 3f);
+
+        if (Random.Range(0, 2) == 0)
+            StartCoroutine("scaleBig", Random.Range(0f, 10f));
+        else
+            StartCoroutine("scaleSmall", Random.Range(0f, 10f));
     }
 
     void Update()
@@ -26,27 +29,33 @@ public class ParticleRect : MonoBehaviour
         lTime += Time.deltaTime;
 
         transform.position += new Vector3(1.5f, -1) * speed * Time.deltaTime;
-        if (transform.position.x > 50 || lTime >= 15)
+        if (transform.position.x > 50 || lTime >= 20)
         {
             transform.position = sPos;
             lTime = 0;
         }
     }
 
-    IEnumerator scaleBig()
+    IEnumerator scaleBig(float count)
     {
-        while (transform.localScale.x < 2)
+        yield return new WaitForSeconds(count);
+        while (transform.localScale.x < 1.3f)
         {
             transform.localScale = transform.localScale + new Vector3(0.02f, 0.02f);
             yield return new WaitForSeconds(0.1f);
         }
+        StopCoroutine("scaleBig");
+        StartCoroutine("scaleSmall", Random.Range(0f, 10f));
     }
-    IEnumerator scaleSmall()
+    IEnumerator scaleSmall(float count)
     {
-        while (transform.localScale.x > 0)
+        yield return new WaitForSeconds(count);
+        while (transform.localScale.x > 0.3f)
         {
             transform.localScale = transform.localScale - new Vector3(0.02f, 0.02f);
             yield return new WaitForSeconds(0.1f);
         }
+        StopCoroutine("scaleSmall");
+        StartCoroutine("scaleBig", Random.Range(0f, 10f));
     }
 }

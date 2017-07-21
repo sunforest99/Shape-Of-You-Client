@@ -34,6 +34,7 @@ namespace GM
 
         public GameObject playerPrefs;
 
+        public SoundManager _sound;
         static NetworkManager _instance;
         public static NetworkManager getInstance
         {
@@ -82,6 +83,7 @@ namespace GM
 
                     nowLoadingWindow.SetActive(true);
                     SceneManager.LoadScene("InGame");
+                    _sound.readyBGM();
                 }
                 catch (SocketException err)
                 {
@@ -267,6 +269,7 @@ namespace GM
             else if (txt[0].Equals("START"))
             {
                 SGameMng.I.MapCtrl(int.Parse(txt[1]));
+                _sound.gameBGM();
             }
             else if (txt[0].Equals("CHANGE"))
             {
@@ -294,8 +297,16 @@ namespace GM
                             v_user[i].proper = (PROPER)int.Parse(txt[2]);
                             v_user[i].color = (COLOR)int.Parse(txt[3]);
                             Debug.Log((PROPER)int.Parse(txt[2]));
-                            if (v_user[i].proper.Equals(PROPER.POLICE)) SGameMng.I.policeCount++;
-                            else SGameMng.I.thiefCount++;
+                            if (v_user[i].proper.Equals(PROPER.POLICE))
+                            {
+                                 SGameMng.I.policeCount++;
+                                SGameMng.I.policeCountTxt.text = SGameMng.I.policeCount + "";
+                            }
+                            else 
+                            {
+                                SGameMng.I.thiefCount++;
+                                SGameMng.I.thiefCountTxt.text = SGameMng.I.thiefCount + "";
+                            }
                             v_user[i].SetUp();
                         }
                 }
@@ -327,10 +338,31 @@ namespace GM
                         if (v_user[i].myIdx == idx)
                         {
                             v_user[i].isLive = false;
-                            if (v_user[i].proper.Equals(PROPER.POLICE)) SGameMng.I.policeCount--;
-                            else SGameMng.I.thiefCount++;
+                            if (v_user[i].proper.Equals(PROPER.POLICE))
+                            {
+                                SGameMng.I.policeCount--;
+                                SGameMng.I.policeCountTxt.text = SGameMng.I.policeCount + "";
+                            }
+                            else
+                            {
+                                SGameMng.I.thiefCount--;
+                                SGameMng.I.thiefCountTxt.text = SGameMng.I.thiefCount + "";
+                            }
                             break;
                         }
+                }
+            }
+            else if (txt[0].Equals("DONE"))
+            {
+                // 게임  끝남
+                for (int i = 0; i < v_user.Count; i++)
+                {
+                    if (v_user[i] !=null)
+                    {
+                        v_user[i].gameObject.SetActive(true);
+                        v_user[i].transform.position = Vector2.zero;
+                        // 관전 상태 해제
+                    }
                 }
             }
         }
