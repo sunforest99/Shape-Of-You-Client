@@ -94,34 +94,7 @@ public class SPlayerMove : MonoBehaviour
             transform.Translate(Vector3.right * fSpeed * Time.deltaTime);
         }
     }
-
-    /**
-     * @brief 바라볼 방향 설정
-     * @param direction 방향 
-     */
-    public void setDirection(MOVE_CONTROL direction)
-    {
-        //
-    }
-
-    /**
-     * @brief 채팅한 내용을 보여줌
-     * @param text 내용 
-     */
-    public void SetChatText(string text)
-    {
-        CancelInvoke("HideChat");
-        //chatText.text = text;
-        Invoke("HideChat", Mathf.Max(5f, text.Length / 10));
-    }
-
-    /**
-     * @brief 채팅 숨기기 
-     */
-    void HideChat()
-    {
-        //chatText.text = "";
-    }
+    
     void OnTriggerEnter2D(Collider2D col)
     {
         if (!proper.Equals(PROPER.POLICE))       // 경찰이 아닐때
@@ -136,19 +109,15 @@ public class SPlayerMove : MonoBehaviour
                 nhp = -1;
                 WatchScrp.GetLive(isLive);
             }
-            if (col.CompareTag("Box") || col.CompareTag("DEnter"))          // 박스랑 충돌할때
-                boxcol.isTrigger = false;
-            else
-                boxcol.isTrigger = true;
         }
+        if (col.CompareTag("Box") || col.CompareTag("DEnter"))          // 박스랑 충돌할때
+            boxcol.isTrigger = false;
+    }
 
-        else
-        {
-            if (col.CompareTag("Box") || col.CompareTag("DEnter"))          // 박스랑 충돌할때
-                boxcol.isTrigger = false;
-            else
-                boxcol.isTrigger = true;
-        }
+    void ExitTriggerEnter2D(Collider2D col)
+    {
+        if (col.CompareTag("Box") || col.CompareTag("DEnter"))
+            boxcol.isTrigger = true;
     }
 
     public void SetUp()
