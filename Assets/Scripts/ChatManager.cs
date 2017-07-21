@@ -16,8 +16,13 @@ public class ChatManager : MonoBehaviour
     [SerializeField]
     UnityEngine.UI.Text[] chatTxt = new UnityEngine.UI.Text[7];
 
+    [SerializeField]
+    GameObject newMsg;
+
     public void btClick()
     {
+        newMsg.SetActive(false);
+
         isOpen = isOpen ? false : true;
         chatAnim.SetBool("Chat", isOpen);
         if (isOpen)
@@ -34,6 +39,9 @@ public class ChatManager : MonoBehaviour
 
     public void chat(string msg)
     {
+        if (!isOpen)
+            newMsg.SetActive(true);
+
         for (int i = 0; i < 6; i++)
         {
             chatTxt[i].text = chatTxt[i + 1].text;

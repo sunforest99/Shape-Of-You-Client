@@ -91,8 +91,11 @@ public class SGameMng : MonoBehaviour
 
     [SerializeField]
     Animator resultAnim;
+    
+    [SerializeField]
+    GameObject mvpObj;
 
-    public void OpenResult(PROPER whoWin)
+    public void OpenResult(PROPER whoWin, int mvpIdx)
     {
         if (whoWin.Equals(PROPER.POLICE))
         {
@@ -104,13 +107,19 @@ public class SGameMng : MonoBehaviour
             winnerThiefTxt.SetActive(true);
             winnerPoliceTxt.SetActive(false);
         }
-        List<string> v_nickList = new List<string>();
 
+        List<string> v_nickList = new List<string>();
+        int lIdx = 0;
 
         for (int i = 0; i < GM.NetworkManager.getInstance.v_user.Count; i++)
             if (GM.NetworkManager.getInstance.v_user[i] != null)
+            {
                 if (GM.NetworkManager.getInstance.v_user[i].proper.Equals(whoWin))
                     v_nickList.Add(GM.NetworkManager.getInstance.v_user[i].nickName);
+
+                if (GM.NetworkManager.getInstance.v_user[i].myIdx.Equals(mvpIdx))
+                    lIdx = i;
+            }
 
 
         p_1.gameObject.SetActive(false);
@@ -129,6 +138,7 @@ public class SGameMng : MonoBehaviour
         {
             p_1.gameObject.SetActive(true);
             p_1.gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = v_nickList[0];
+            mvpObj.transform.position = p_1.gameObject.transform.position;
         }
         else if (v_nickList.Count.Equals(2))
         {
@@ -137,6 +147,7 @@ public class SGameMng : MonoBehaviour
                 p_2[i].gameObject.SetActive(true);
                 p_2[i].gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = v_nickList[i];
             }
+            mvpObj.transform.position = p_2[lIdx].gameObject.transform.position;
         }
         else if (v_nickList.Count.Equals(3))
         {
@@ -145,6 +156,7 @@ public class SGameMng : MonoBehaviour
                 p_3[i].gameObject.SetActive(true);
                 p_3[i].gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = v_nickList[i];
             }
+            mvpObj.transform.position = p_3[lIdx].gameObject.transform.position;
         }
         else if (v_nickList.Count.Equals(4))
         {
@@ -153,6 +165,7 @@ public class SGameMng : MonoBehaviour
                 p_4[i].gameObject.SetActive(true);
                 p_4[i].gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = v_nickList[i];
             }
+            mvpObj.transform.position = p_4[lIdx].gameObject.transform.position;
         }
         else if (v_nickList.Count.Equals(5))
         {
@@ -161,6 +174,7 @@ public class SGameMng : MonoBehaviour
                 p_5[i].gameObject.SetActive(true);
                 p_5[i].gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = v_nickList[i];
             }
+            mvpObj.transform.position = p_5[lIdx].gameObject.transform.position;
         }
         else if (v_nickList.Count.Equals(6))
         {
@@ -169,6 +183,7 @@ public class SGameMng : MonoBehaviour
                 p_6[i].gameObject.SetActive(true);
                 p_6[i].gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = v_nickList[i];
             }
+            mvpObj.transform.position = p_6[lIdx].gameObject.transform.position;
         }
         resultAnim.SetTrigger("RESULT");
     }
