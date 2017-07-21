@@ -277,6 +277,10 @@ namespace GM
             {
                 SGameMng.I.MapCtrl(int.Parse(txt[1]));
                 _sound.gameBGM();
+                for (int i = 0; i < v_user.Count; i++)
+                {
+                    v_user[i].transform.localPosition = Vector3.zero;
+                }
             }
             else if (txt[0].Equals("CHANGE"))
             {
@@ -378,8 +382,16 @@ namespace GM
             }
             else if (txt[0].Equals("WAIT"))
             {
-                v_user[v_user.Count - 1].gameObject.SetActive(false);
-                v_user[v_user.Count - 1].isLive = false;
+                for (int i = 0; i < v_user.Count; i++)
+                {
+                    if (v_user[i].myIdx == v_user.Count - 1)
+                        SceneManager.LoadScene("Login");
+                }
+                //SGameMng.I.MapCtrl(int.Parse(txt[1]));
+                //_sound.gameBGM();
+                //v_user[v_user.Count - 1].gameObject.SetActive(false);
+                //v_user[v_user.Count - 1].isLive = false;
+                Debug.Log("Wait");
             }
         }
         /**

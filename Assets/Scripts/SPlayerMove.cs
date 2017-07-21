@@ -15,7 +15,7 @@ public class SPlayerMove : MonoBehaviour
     public GameObject colGame = null;
     public GameObject blindGame = null;
     public bool bBlind;
-    public GameObject SkillGame = null;
+    public bool bStartup;
     public float fSpeed;
     public Color[] colorcls = null;
 
@@ -25,7 +25,6 @@ public class SPlayerMove : MonoBehaviour
     public COLOR color = COLOR.WHITE;
 
     SWatching WatchScrp = null;
-    BoxCollider2D boxcol = null;
     [SerializeField]
     SpriteRenderer sprite = null;
 
@@ -35,14 +34,13 @@ public class SPlayerMove : MonoBehaviour
         nhp = 1;
         SetUp();
         WatchScrp = Camera.main.GetComponent<SWatching>();
-        boxcol = GetComponent<BoxCollider2D>();
     }
 
     void Update()
     {
         if (isPlayer && isLive)
         {
-            if (proper == PROPER.POLICE) { SGameMng.I.uiScrp.GetSkill(nhp.ToString()); }
+            if (proper == PROPER.POLICE) { SGameMng.I.uiScrp.GetSkill(nhp.ToString()); fSpeed = 10f; }
             Blind();
             if (Input.GetKey(KeyCode.UpArrow)) myMove = MOVE_CONTROL.UP;
             else if (Input.GetKey(KeyCode.LeftArrow)) myMove = MOVE_CONTROL.LEFT;
@@ -94,12 +92,12 @@ public class SPlayerMove : MonoBehaviour
             transform.Translate(Vector3.right * fSpeed * Time.deltaTime);
         }
     }
-    
+
     void OnTriggerEnter2D(Collider2D col)
     {
         if (!proper.Equals(PROPER.POLICE))       // 경찰이 아닐때
         {
-            if (col.CompareTag("Police") && col.GetComponent<SPlayerMove>().color == color)
+            if (col.CompareTag("Police") && col.GetComponent<SPlayerMove>().color == color && !bStartup)
             {
                 nhp = -1;
                 WatchScrp.GetLive(isLive);
@@ -109,15 +107,8 @@ public class SPlayerMove : MonoBehaviour
                 nhp = -1;
                 WatchScrp.GetLive(isLive);
             }
+            if (nhp <= 0) GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}:{1}", myIdx, col.GetComponent<SPlayerMove>().myIdx));
         }
-        if (col.CompareTag("Box") || col.CompareTag("DEnter"))          // 박스랑 충돌할때
-            boxcol.isTrigger = false;
-    }
-
-    void ExitTriggerEnter2D(Collider2D col)
-    {
-        if (col.CompareTag("Box") || col.CompareTag("DEnter"))
-            boxcol.isTrigger = true;
     }
 
     public void SetUp()
@@ -174,6 +165,7 @@ public class SPlayerMove : MonoBehaviour
     {
         if (nhp <= 0)
         {
+           if(proper==PROPER.POLICE) GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}:{1}", myIdx, myIdx));
             gameObject.SetActive(false);
         }
     }
@@ -182,13 +174,15 @@ public class SPlayerMove : MonoBehaviour
     {
         if (proper == PROPER.POLICE && !bBlind)
         {
-            SkillGame.SetActive(true);
+            bStartup = true;
+            SGameMng.I.uiScrp.SkillActive();
             blindGame.SetActive(true);
             fSpeed = 0f;
             bBlind = true;
         }
         if (SGameMng.I.sTimer.Equals("2:45"))
         {
+            bStartup = false;
             blindGame.SetActive(false);
             fSpeed = 9f;
         }

@@ -17,10 +17,15 @@ public class Reset : MonoBehaviour
                 GM.NetworkManager.getInstance.v_user[i].pos = new Vector2(0f, 0f);
                 GM.NetworkManager.getInstance.v_user[i].bBlind = false;
                 GM.NetworkManager.getInstance.v_user[i].fSpeed = 9f;
-                GM.NetworkManager.getInstance.v_user[i].SkillGame.SetActive(false);
                 GM.NetworkManager.getInstance.v_user[i].proper = PROPER.GENERAL;
                 GM.NetworkManager.getInstance.v_user[i].color = COLOR.WHITE;
             }
         }
+        SGameMng.I.bStartCheck = false;
+        SGameMng.I.thiefCount = 0;
+        SGameMng.I.thiefCountTxt.text = "0";
+        SGameMng.I.policeCount = 0;
+        SGameMng.I.policeCountTxt.text = "0";
+        SGameMng.I.ClearMap();
     }
 }

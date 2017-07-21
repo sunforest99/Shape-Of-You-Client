@@ -46,6 +46,7 @@ public class ChatManager : MonoBehaviour
         if (!msg.text.Equals(""))
         {
             GM.NetworkManager.getInstance.SendMsg(string.Format("CHAT:{0}:{1}", GM.NetworkManager.getInstance.nickName, msg.text));
+            msg.text = "";
         }
     }
 }

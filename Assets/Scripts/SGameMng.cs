@@ -53,8 +53,7 @@ public class SGameMng : MonoBehaviour
     GameObject[] MapGame = null;
 
     public SUi uiScrp;
-
-    public bool bPause;
+   
     public string sTimer;
     public bool bStartCheck;
     public int thiefCount = 0;
@@ -73,7 +72,16 @@ public class SGameMng : MonoBehaviour
                 MapGame[i].SetActive(false);
         }
     }
+    public void ClearMap()
+    {
+        for (int i = 0; i < MapGame.Length; i++)
+        {
+            MapGame[i].SetActive(false);
+        }
+    }
 
+    public GameObject winnerThiefTxt;
+    public GameObject winnerPoliceTxt;
     public UnityEngine.UI.Image p_1;
     public UnityEngine.UI.Image[] p_2 = new UnityEngine.UI.Image[2];
     public UnityEngine.UI.Image[] p_3 = new UnityEngine.UI.Image[3];
@@ -86,7 +94,18 @@ public class SGameMng : MonoBehaviour
 
     public void OpenResult(PROPER whoWin)
     {
+        if (whoWin.Equals(PROPER.POLICE))
+        {
+            winnerThiefTxt.SetActive(false);
+            winnerPoliceTxt.SetActive(true);
+        }
+        else
+        {
+            winnerThiefTxt.SetActive(true);
+            winnerPoliceTxt.SetActive(false);
+        }
         List<string> v_nickList = new List<string>();
+
 
         for (int i = 0; i < GM.NetworkManager.getInstance.v_user.Count; i++)
             if (GM.NetworkManager.getInstance.v_user[i] != null)
