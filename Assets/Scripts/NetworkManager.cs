@@ -25,6 +25,7 @@ namespace GM
         int port = 10000;               // 포트 번호, 서버포트와 같게 할 것
         byte[] buf = new byte[4096];
         int recvLen = 0;
+        public bool isAdmin = false;
 
         public GameObject nowLoadingWindow;
 
@@ -32,7 +33,6 @@ namespace GM
         List<SPlayerMove> v_user = new List<SPlayerMove>();
 
         public GameObject playerPrefs;
-
 
         static NetworkManager _instance;
         public static NetworkManager getInstance
@@ -224,6 +224,9 @@ namespace GM
             }
             else if (txt[0].Equals("ADDUSER"))
             {
+                // // 사람이 입장하기 전에 유저가 한명 이하라는 것은 본인이 방장임을 뜻함
+                if (v_user.Count <= 1) isAdmin = true;
+
                 // 새로운 유저를 생성할때 호출됨
                 CreateUser(int.Parse(txt[1]), nickName, Vector3.zero, MOVE_CONTROL.STOP, true);
             }
@@ -267,7 +270,16 @@ namespace GM
             }
             else if (txt[0].Equals("CHANGE"))
             {
-
+                int idx = int.Parse(txt[1]);
+                for (int i = 0; i < v_user.Count; i++)
+                {
+                    if (v_user[i] != null)
+                        if (v_user[i].myIdx == idx)
+                        {
+                            v_user[i].color = (COLOR)int.Parse(txt[2]);
+                            break;
+                        }
+                }
             }
             else if (txt[0].Equals("PROPER"))
             {
@@ -277,10 +289,10 @@ namespace GM
                     if (v_user[i] != null)
                         if (v_user[i].myIdx == idx)
                         {
-                            v_user[i].proper = (PROPER)int.Parse(txt[1]);
+                            v_user[i].proper = (PROPER)int.Parse(txt[2]);
+                            v_user[i].color = (COLOR)int.Parse(txt[3]);
+                            Debug.Log((COLOR)int.Parse(txt[3]));
                             v_user[i].SetUp();
-                            // 이때 캐릭터 변신
-                            break;
                         }
                 }
             }
@@ -294,6 +306,23 @@ namespace GM
                         {
                             // 공격
                             v_user[i].Attack();
+                            break;
+                        }
+                }
+            }
+            else if (txt[0].Equals("TIME"))
+            {
+                SGameMng.I.sTimer = string.Format("{0,00}:{1,00}", (180 - int.Parse(txt[1])) / 60, (180 - int.Parse(txt[1])) % 60);
+            }
+            else if (txt[0].Equals("DIE"))
+            {
+                int idx = int.Parse(txt[1]);
+                for (int i = 0; i < v_user.Count; i++)
+                {
+                    if (v_user[i] != null)
+                        if (v_user[i].myIdx == idx)
+                        {
+                            v_user[i].isLive = false;
                             break;
                         }
                 }

@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212258681561516700}
   - component: {fileID: 114822704856055868}
   - component: {fileID: 61483769548835682}
+  - component: {fileID: 50583647464623290}
   m_Layer: 0
   m_Name: rect_0
   m_TagString: General
@@ -42,6 +43,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &50583647464623290
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1016580985380828}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!61 &61483769548835682
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -80,11 +101,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nickName: 
   myIdx: 0
+  isLive: 1
   isPlayer: 0
   pos: {x: 0, y: 0, z: 0}
+  colorcls:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.101960786, g: 0.7372549, b: 0.6117647, a: 1}
+  - {r: 0.94509804, g: 0.76862746, b: 0.05882353, a: 1}
+  - {r: 0.9019608, g: 0.49411765, b: 0.13333334, a: 1}
+  - {r: 0.20392157, g: 0.59607846, b: 0.85882354, a: 1}
+  - {r: 0.60784316, g: 0.34901962, b: 0.7137255, a: 1}
+  - {r: 0.90588236, g: 0.29803923, b: 0.23529412, a: 1}
+  - {r: 0.58431375, g: 0.64705884, b: 0.6509804, a: 1}
+  - {r: 0.23529412, g: 0.3137255, b: 0.39607844, a: 1}
   myMove: 0
   beforeMove: 0
   proper: 0
+  color: 0
+  sprite: {fileID: 212258681561516700}
 --- !u!212 &212258681561516700
 SpriteRenderer:
   m_ObjectHideFlags: 1
