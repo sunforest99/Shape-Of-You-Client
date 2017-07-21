@@ -9,19 +9,25 @@ public class SUi : MonoBehaviour
     [SerializeField]
     GameObject BtnGame = null;
   
-    // Use this for initialization
     void Start()
     {
         SGameMng.I.bStartCheck = false;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         timer.text = SGameMng.I.sTimer;
+        if (timer.text.Equals("1:0"))
+            timer.color = new Color(255, 191, 0);
+        else if (timer.text.Equals("0:30"))
+            timer.color = new Color(255, 69, 83);
+        else if (timer.text.Equals(""))
+            timer.color = new Color(255, 54, 0);
+
         if (GM.NetworkManager.getInstance.isAdmin && !SGameMng.I.bStartCheck)
             BtnGame.SetActive(true);
     }
+
     public void gameStart()
     {
         if (GM.NetworkManager.getInstance.isAdmin)
