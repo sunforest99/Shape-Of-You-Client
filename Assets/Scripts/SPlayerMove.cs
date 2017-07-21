@@ -48,7 +48,7 @@ public class SPlayerMove : MonoBehaviour
             else if (Input.GetKey(KeyCode.DownArrow)) myMove = MOVE_CONTROL.DOWN;
             else myMove = MOVE_CONTROL.STOP;
 
-            if (myMove != beforeMove && !bBlind)
+            if (myMove != beforeMove && !bStartup)
             {
                 GM.NetworkManager.getInstance.SendMsg(string.Format("MOVE:{0}:{1}:{2}:{3}", myIdx, transform.position.x, transform.position.y, (int)myMove));
                 beforeMove = myMove;
@@ -183,8 +183,9 @@ public class SPlayerMove : MonoBehaviour
         if (SGameMng.I.sTimer.Equals("2:45"))
         {
             bStartup = false;
+            bBlind = false;
             blindGame.SetActive(false);
-            fSpeed = 9f;
+            fSpeed = 10f;
         }
     }
 }

@@ -367,7 +367,7 @@ namespace GM
             else if (txt[0].Equals("DONE"))
             {
                 Debug.Log("G DONE");
-                SGameMng.I.OpenResult((PROPER)int.Parse(txt[1]));
+                SGameMng.I.OpenResult((PROPER)int.Parse(txt[1]), int.Parse(txt[2]));
 
                 //// 게임  끝남
                 //for (int i = 0; i < v_user.Count; i++)
