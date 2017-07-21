@@ -23,7 +23,8 @@ GameObject:
   - component: {fileID: 114822704856055868}
   - component: {fileID: 61483769548835682}
   - component: {fileID: 50583647464623290}
-  m_Layer: 0
+  - component: {fileID: 114704547996563134}
+  m_Layer: 9
   m_Name: rect_0
   m_TagString: General
   m_Icon: {fileID: 0}
@@ -40,7 +41,7 @@ GameObject:
   - component: {fileID: 4099097694700640}
   - component: {fileID: 212896445480278160}
   - component: {fileID: 61687100024365320}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Colider
   m_TagString: Pcolider
   m_Icon: {fileID: 0}
@@ -56,7 +57,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4677790764650124}
   - component: {fileID: 96901469692260370}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Game
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +73,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4694945608064426}
   - component: {fileID: 212071261601086176}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Blind
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +164,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -288,6 +289,17 @@ TrailRenderer:
     textureMode: 0
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
+--- !u!114 &114704547996563134
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1016580985380828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 884b602fc44abb943a1c81b6438efcc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114822704856055868
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -301,14 +313,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nickName: 
   myIdx: 0
-  bCameraMove: 0
   isLive: 1
+  nhp: 0
   isPlayer: 0
   pos: {x: 0, y: 0, z: 0}
   colGame: {fileID: 1664481399750844}
   blindGame: {fileID: 1851037636520326}
   bBlind: 0
-  lifeGame: {fileID: 0}
+  bStartup: 0
+  fSpeed: 0
   colorcls:
   - {r: 1, g: 1, b: 1, a: 1}
   - {r: 0.101960786, g: 0.7372549, b: 0.6117647, a: 1}

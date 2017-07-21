@@ -11,7 +11,7 @@ public class SUi : MonoBehaviour
     [SerializeField]
     GameObject BtnGame = null;
     [SerializeField]
-    GameObject ResultGame = null;
+    GameObject KillGame = null;
 
     void Start()
     {
@@ -43,4 +43,5 @@ public class SUi : MonoBehaviour
     }
 
     public void GetSkill(string sKill) { skillui.text = sKill; }
+    public void SkillActive() { KillGame.SetActive(true); }
 }

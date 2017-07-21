@@ -2302,6 +2302,7 @@ MonoBehaviour:
   isAdmin: 0
   nowLoadingWindow: {fileID: 1754680231}
   nickName: 
+  v_user: []
   playerPrefs: {fileID: 1016580985380828, guid: 8b618657e91c8774184b5c6509a9b946,
     type: 2}
   _sound: {fileID: 548298986}
