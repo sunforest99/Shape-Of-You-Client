@@ -50,6 +50,7 @@ public class SGameMng : MonoBehaviour
     }
     [SerializeField]
     GameObject[] MapGame = null;
+
     public bool bPause;
     public string sTimer;
     public bool bStartCheck;
@@ -82,12 +83,12 @@ public class SGameMng : MonoBehaviour
 
     public void OpenResult(PROPER whoWin)
     {
-        int mC = 0;
+        List<string> v_nickList = new List<string>();
 
         for (int i = 0; i < GM.NetworkManager.getInstance.v_user.Count; i++)
             if (GM.NetworkManager.getInstance.v_user[i] != null)
                 if (GM.NetworkManager.getInstance.v_user[i].proper.Equals(whoWin))
-                    mC++;
+                    v_nickList.Add(GM.NetworkManager.getInstance.v_user[i].nickName);
 
 
         p_1.gameObject.SetActive(false);
@@ -102,34 +103,50 @@ public class SGameMng : MonoBehaviour
         for (int i = 0; i < 6; i++)
             p_6[i].gameObject.SetActive(false);
 
-        if (mC.Equals(1))
+        if (v_nickList.Count.Equals(1))
         {
             p_1.gameObject.SetActive(true);
+            p_1.gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = v_nickList[0];
         }
-        else if (mC.Equals(2))
+        else if (v_nickList.Count.Equals(2))
         {
             for (int i = 0; i < 2; i++)
+            {
                 p_2[i].gameObject.SetActive(true);
+                p_2[i].gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = v_nickList[i];
+            }
         }
-        else if (mC.Equals(3))
+        else if (v_nickList.Count.Equals(3))
         {
             for (int i = 0; i < 3; i++)
+            {
                 p_3[i].gameObject.SetActive(true);
+                p_3[i].gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = v_nickList[i];
+            }
         }
-        else if (mC.Equals(4))
+        else if (v_nickList.Count.Equals(4))
         {
             for (int i = 0; i < 4; i++)
+            {
                 p_4[i].gameObject.SetActive(true);
+                p_4[i].gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = v_nickList[i];
+            }
         }
-        else if (mC.Equals(5))
+        else if (v_nickList.Count.Equals(5))
         {
             for (int i = 0; i < 5; i++)
+            {
                 p_5[i].gameObject.SetActive(true);
+                p_5[i].gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = v_nickList[i];
+            }
         }
-        else if (mC.Equals(6))
+        else if (v_nickList.Count.Equals(6))
         {
             for (int i = 0; i < 6; i++)
+            {
                 p_6[i].gameObject.SetActive(true);
+                p_6[i].gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = v_nickList[i];
+            }
         }
         resultAnim.SetTrigger("RESULT");
     }
