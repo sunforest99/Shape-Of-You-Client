@@ -6,10 +6,13 @@ public class SWatching : MonoBehaviour
 {
     void LateUpdate()
     {
-        if (!SGameMng.I.bDie)
-        {
-            CameraMove();
-        }
+        //for (int i = 0; i < GM.NetworkManager.getInstance.v_user.Count; i++)
+        //{
+        //    if (!GM.NetworkManager.getInstance.v_user[i].isLive)
+        //    {
+        //        CameraMove();
+        //    }
+        //}
     }
 
     void CameraMove()

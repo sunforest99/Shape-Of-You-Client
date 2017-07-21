@@ -12,7 +12,7 @@ public class SPlayerMove : MonoBehaviour
     int nhp;
     public bool isPlayer = false;
     public Vector3 pos;
-    bool bcol;
+    public GameObject colGame = null;
     public Color[] colorcls = null;
 
     public MOVE_CONTROL myMove = MOVE_CONTROL.STOP;
@@ -69,12 +69,12 @@ public class SPlayerMove : MonoBehaviour
             //anim.Play("RIGHT");
             transform.Translate(Vector3.right * 4f * Time.deltaTime);
         }
-        if (Input.GetKeyDown(KeyCode.Space) && proper.Equals(PROPER.POLICE))
-        {
-            Attack();
-            GM.NetworkManager.getInstance.SendMsg(string.Format("ATTACK:{0}", myIdx));
-            Debug.Log("attack down");
-        }
+        //if (Input.GetKeyDown(KeyCode.Space) && proper.Equals(PROPER.POLICE))
+        //{
+        //    Attack();
+        //    GM.NetworkManager.getInstance.SendMsg(string.Format("ATTACK:{0}", myIdx));
+        //    Debug.Log("attack down");
+        //}
         Die();
     }
 
@@ -109,7 +109,7 @@ public class SPlayerMove : MonoBehaviour
     {
         if (!proper.Equals(PROPER.POLICE))       // 경찰이 아닐때
         {
-            if (col.CompareTag("Police"))
+            if (col.CompareTag("Pcolider"))
             {
                 nhp = -1;
             }
@@ -119,17 +119,12 @@ public class SPlayerMove : MonoBehaviour
                 boxcol.isTrigger = true;
         }
 
-        if (!bcol && proper.Equals(PROPER.POLICE))
+        else
         {
             if (col.CompareTag("Box"))          // 박스랑 충돌할때
                 boxcol.isTrigger = false;
             else
                 boxcol.isTrigger = true;
-        }
-        else if (bcol && proper.Equals(PROPER.POLICE))
-        {
-            boxcol.isTrigger = true;
-            Debug.Log("asdf");
         }
     }
 
@@ -161,22 +156,22 @@ public class SPlayerMove : MonoBehaviour
 
     public void Attack()
     {
+        GM.NetworkManager.getInstance.SendMsg(string.Format("ATTACK:{0}", myIdx));
         nhp -= 1;
         if (nhp >= 0)
             StartCoroutine("Big");
     }
 
+
     IEnumerator Big()
     {
-        bcol = true;
-        transform.localScale = new Vector2(2f, 2f);
+        colGame.SetActive(true);
         yield return new WaitForSeconds(1f);
         StartCoroutine("Small");
     }
     IEnumerator Small()
     {
-        bcol = false;
-        transform.localScale = new Vector2(1f, 1f);
+        colGame.SetActive(false);
         yield return null;
     }
 
@@ -186,7 +181,6 @@ public class SPlayerMove : MonoBehaviour
         {
             GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}", myIdx));
             gameObject.SetActive(false);
-            SGameMng.I.bDie = false;
         }
     }
 }

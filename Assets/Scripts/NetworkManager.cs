@@ -54,7 +54,6 @@ namespace GM
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 SendMsg("DEBUG");
-
             }
         }
 
@@ -225,7 +224,8 @@ namespace GM
             else if (txt[0].Equals("ADDUSER"))
             {
                 // // 사람이 입장하기 전에 유저가 한명 이하라는 것은 본인이 방장임을 뜻함
-                if (v_user.Count <= 1) isAdmin = true;
+                if (v_user.Count < 1) isAdmin = true;
+                else isAdmin = false;
 
                 // 새로운 유저를 생성할때 호출됨
                 CreateUser(int.Parse(txt[1]), nickName, Vector3.zero, MOVE_CONTROL.STOP, true);
@@ -283,15 +283,19 @@ namespace GM
             }
             else if (txt[0].Equals("PROPER"))
             {
+
                 int idx = int.Parse(txt[1]);
                 for (int i = 0; i < v_user.Count; i++)
                 {
+
                     if (v_user[i] != null)
                         if (v_user[i].myIdx == idx)
                         {
                             v_user[i].proper = (PROPER)int.Parse(txt[2]);
                             v_user[i].color = (COLOR)int.Parse(txt[3]);
-                            Debug.Log((COLOR)int.Parse(txt[3]));
+                            Debug.Log((PROPER)int.Parse(txt[2]));
+                            if (v_user[i].proper.Equals(PROPER.POLICE)) SGameMng.I.policeCount++;
+                            else SGameMng.I.thiefCount++;
                             v_user[i].SetUp();
                         }
                 }
@@ -312,7 +316,7 @@ namespace GM
             }
             else if (txt[0].Equals("TIME"))
             {
-                SGameMng.I.sTimer = string.Format("{0,00}:{1,00}", (180 - int.Parse(txt[1])) / 60, (180 - int.Parse(txt[1])) % 60);
+                SGameMng.I.sTimer = string.Format("{0,00}:{1,00}", int.Parse(txt[1]) / 60, int.Parse(txt[1]) % 60);
             }
             else if (txt[0].Equals("DIE"))
             {
@@ -323,6 +327,8 @@ namespace GM
                         if (v_user[i].myIdx == idx)
                         {
                             v_user[i].isLive = false;
+                            if (v_user[i].proper.Equals(PROPER.POLICE)) SGameMng.I.policeCount--;
+                            else SGameMng.I.thiefCount++;
                             break;
                         }
                 }

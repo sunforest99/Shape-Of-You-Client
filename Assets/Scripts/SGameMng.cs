@@ -51,9 +51,10 @@ public class SGameMng : MonoBehaviour
     [SerializeField]
     GameObject[] MapGame = null;
     public bool bPause;
-    public bool bDie = true;
     public string sTimer;
     public bool bStartCheck;
+    public int thiefCount = 0;
+    public int policeCount = 0;
 
     public void MapCtrl(int nMapNum)
     {
