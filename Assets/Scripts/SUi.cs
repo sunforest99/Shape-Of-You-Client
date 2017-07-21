@@ -12,7 +12,7 @@ public class SUi : MonoBehaviour
     GameObject BtnGame = null;
     [SerializeField]
     GameObject ResultGame = null;
-  
+
     void Start()
     {
         SGameMng.I.bStartCheck = false;
