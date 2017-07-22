@@ -9,6 +9,7 @@ TagManager:
   - General
   - Pcolider
   - DEnter
+  - col
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - 
   - Map
   - Game
-  - 
+  - Attack
   - 
   - 
   - 

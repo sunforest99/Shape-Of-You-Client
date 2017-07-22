@@ -17,7 +17,10 @@ public class SPlayerMove : MonoBehaviour
     public bool bBlind;
     public bool bStartup;
     public float fSpeed;
+    public Col colscrp = null;
     public Color[] colorcls = null;
+    int idx;
+    bool isSkill;
 
     public MOVE_CONTROL myMove = MOVE_CONTROL.STOP;
     public MOVE_CONTROL beforeMove = MOVE_CONTROL.STOP;
@@ -53,16 +56,13 @@ public class SPlayerMove : MonoBehaviour
                 GM.NetworkManager.getInstance.SendMsg(string.Format("MOVE:{0}:{1}:{2}:{3}", myIdx, transform.position.x, transform.position.y, (int)myMove));
                 beforeMove = myMove;
             }
-            if (Input.GetKeyDown(KeyCode.Space) && proper.Equals(PROPER.POLICE))
+            if (Input.GetKeyDown(KeyCode.Space) && proper.Equals(PROPER.POLICE) && !isSkill && !bStartup)
             {
                 GM.NetworkManager.getInstance.SendMsg(string.Format("ATTACK:{0}", myIdx));
                 Attack();
                 Debug.Log("attack down");
             }
-            if (nhp <= 0)
-            {
-                GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}", myIdx));
-            }
+
             WatchScrp.Move(this.transform);
         }
         if (isLive && nhp <= 0)
@@ -95,19 +95,22 @@ public class SPlayerMove : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (!proper.Equals(PROPER.POLICE))       // 경찰이 아닐때
+        if (SGameMng.I.bStartCheck)
         {
-            if (col.CompareTag("Police") && col.GetComponent<SPlayerMove>().color == color && !bStartup)
+            if (!proper.Equals(PROPER.POLICE))       // 경찰이 아닐때
             {
-                nhp = -1;
-                WatchScrp.GetLive(isLive);
+                if (col.CompareTag("Pcolider") && colscrp.playerScrp.color == color && !bStartup)
+                {
+                    nhp = -1;
+                    WatchScrp.GetLive(isLive);
+                }
+                else if (col.CompareTag("Pcolider"))
+                {
+                    nhp = -1;
+                    WatchScrp.GetLive(isLive);
+                }
+                if (nhp <= 0 && col.CompareTag("col")) idx = colscrp.playerScrp.myIdx;
             }
-            if (col.CompareTag("Pcolider"))
-            {
-                nhp = -1;
-                WatchScrp.GetLive(isLive);
-            }
-            if (nhp <= 0) GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}:{1}", myIdx, col.GetComponent<SPlayerMove>().myIdx));
         }
     }
 
@@ -116,6 +119,7 @@ public class SPlayerMove : MonoBehaviour
         ChangeColor();
         if (proper.Equals(PROPER.POLICE))
         {
+            colscrp.gameObject.tag = "Pcolider";
             gameObject.tag = "Police";
             nhp = 10;
         }
@@ -142,13 +146,17 @@ public class SPlayerMove : MonoBehaviour
 
     IEnumerator Big()
     {
-        colGame.SetActive(true);
+        isSkill = true;
+        colscrp.transform.localScale = new Vector2(2f, 2f);
+        colscrp.SetColor();
         yield return new WaitForSeconds(1f);
         StartCoroutine("Small");
     }
     IEnumerator Small()
     {
-        colGame.SetActive(false);
+        isSkill = false;
+        colscrp.transform.localScale = new Vector2(1f, 1f);
+        colscrp.ColorReset();
         yield return null;
     }
 
@@ -165,7 +173,8 @@ public class SPlayerMove : MonoBehaviour
     {
         if (nhp <= 0)
         {
-           if(proper==PROPER.POLICE) GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}:{1}", myIdx, myIdx));
+            if(proper==PROPER.POLICE) GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}:{1}", myIdx, myIdx));
+            else GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}:{1}", myIdx, idx));
             gameObject.SetActive(false);
         }
     }
@@ -174,6 +183,7 @@ public class SPlayerMove : MonoBehaviour
     {
         if (proper == PROPER.POLICE && !bBlind)
         {
+            Debug.Log(colscrp.gameObject.tag);
             bStartup = true;
             SGameMng.I.uiScrp.SkillActive();
             blindGame.SetActive(true);

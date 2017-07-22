@@ -41,13 +41,14 @@ GameObject:
   - component: {fileID: 4099097694700640}
   - component: {fileID: 212896445480278160}
   - component: {fileID: 61687100024365320}
-  m_Layer: 9
+  - component: {fileID: 114877968203544632}
+  m_Layer: 10
   m_Name: Colider
-  m_TagString: Pcolider
+  m_TagString: col
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1757642561897004
 GameObject:
   m_ObjectHideFlags: 0
@@ -88,7 +89,7 @@ Transform:
   m_GameObject: {fileID: 1664481399750844}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4253419588031480}
   m_RootOrder: 0
@@ -322,6 +323,7 @@ MonoBehaviour:
   bBlind: 0
   bStartup: 0
   fSpeed: 0
+  colscrp: {fileID: 114877968203544632}
   colorcls:
   - {r: 1, g: 1, b: 1, a: 1}
   - {r: 0.101960786, g: 0.7372549, b: 0.6117647, a: 1}
@@ -337,6 +339,19 @@ MonoBehaviour:
   proper: 0
   color: 0
   sprite: {fileID: 212258681561516700}
+--- !u!114 &114877968203544632
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1664481399750844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39d52713387b9bf4eba568212daeddea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerScrp: {fileID: 114822704856055868}
+  colColor: {fileID: 212896445480278160}
 --- !u!212 &212071261601086176
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -450,7 +465,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: aa759496e1ce8c543818fcaaacfb0a93, type: 3}
-  m_Color: {r: 0.6392157, g: 0.56078434, b: 0.5176471, a: 1}
+  m_Color: {r: 0.6392157, g: 0.56078434, b: 0.5176471, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
