@@ -8,10 +8,14 @@ public class Reset : MonoBehaviour
     public void ResetFn()
     {
         Debug.Log("RESET !!!!!!");
+
+        SGameMng.I.gameObject.SendMessage("reset");
+
         for (int i = 0; i < GM.NetworkManager.getInstance.v_user.Count; i++)
         {
             if (GM.NetworkManager.getInstance.v_user[i] != null)
             {
+                GM.NetworkManager.getInstance.v_user[i].gameObject.SetActive(true);
                 GM.NetworkManager.getInstance.v_user[i].isLive = true;
                 GM.NetworkManager.getInstance.v_user[i].nhp = 1;
                 GM.NetworkManager.getInstance.v_user[i].pos = new Vector2(0f, 0f);
