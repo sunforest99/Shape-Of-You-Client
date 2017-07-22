@@ -45,7 +45,6 @@ public class SPlayerMove : MonoBehaviour
             if (proper == PROPER.POLICE) { SGameMng.I.uiScrp.GetSkill(nhp.ToString()); }
             Blind();
             if (!bStartup) KeyDown();
-            else KeyDown();
 
             if (myMove != beforeMove && !bStartup)
             {
@@ -67,10 +66,7 @@ public class SPlayerMove : MonoBehaviour
 
             WatchScrp.Move(this.transform);
         }
-
-        if (gameObject.tag.Equals("Police") && bStartup) myMove = 0;
-        else Move();
-
+        Move();
     }
 
     public void SetUp()
