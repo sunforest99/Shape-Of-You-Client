@@ -46,17 +46,18 @@ namespace GM
 
         void Awake()
         {
+            Screen.SetResolution(1280, 720, false);
             DontDestroyOnLoad(this);
             _instance = this;
         }
 
-        void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                SendMsg("DEBUG");
-            }
-        }
+        //void Update()
+        //{
+        //    if (Input.GetKeyDown(KeyCode.Escape))
+        //    {
+        //        SendMsg("DEBUG");
+        //    }
+        //}
 
         /**
          * @brief 서버에 접속 
@@ -309,7 +310,7 @@ namespace GM
                         if (v_user[i].myIdx == idx)
                         {
                             v_user[i].proper = (PROPER)int.Parse(txt[2]);
-                            if (v_user[i].proper == PROPER.POLICE) { v_user[i].gameObject.tag = "Pcolider"; v_user[i].fSpeed = 10f; }
+                            if (v_user[i].proper == PROPER.POLICE) { v_user[i].gameObject.tag = "Pcolider"; v_user[i].fSpeed = 10f; v_user[i].bStartup = true; }
                             v_user[i].color = (COLOR)int.Parse(txt[3]);
                             Debug.Log((PROPER)int.Parse(txt[2]));
                             if (v_user[i].proper.Equals(PROPER.POLICE))
@@ -348,6 +349,7 @@ namespace GM
             }
             else if (txt[0].Equals("DIE"))
             {
+                Debug.Log("DIELog");
                 int idx = int.Parse(txt[1]);
                 int tIdx = int.Parse(txt[2]);
                 string tName = "";
@@ -387,7 +389,7 @@ namespace GM
                                         }
                                     }
                                 }
-                                SGameMng.I.uiScrp.imdie(txt[2]);
+                                SGameMng.I.uiScrp.imdie(tName);
                             }
                             break;
                         }

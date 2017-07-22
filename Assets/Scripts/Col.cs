@@ -13,37 +13,47 @@ public class Col : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (SGameMng.I.bStartCheck)
-        {
-            if (!playerScrp.proper.Equals(PROPER.POLICE))       // 경찰이 아닐때
+        //if (playerScrp.isPlayer)
+        //{
+            if (SGameMng.I.bStartCheck)
             {
-                if (col.CompareTag("Pcolider") && col.GetComponent<Col>().playerScrp.color == playerScrp.color && !playerScrp.bStartup)
+                if (!playerScrp.proper.Equals(PROPER.POLICE))       // 경찰이 아닐때
                 {
-                    playerScrp.nhp = -1;
-                    playerScrp.WatchScrp.GetLive(playerScrp.isLive);
+                    if (col.CompareTag("Pcolider") && col.GetComponent<Col>().playerScrp.color == playerScrp.color && !col.GetComponent<Col>().playerScrp.bStartup)
+                    {
+                        playerScrp.nhp = -1;
+                        playerScrp.WatchScrp.GetLive(playerScrp.isLive);
+                    }
+                    else if (col.CompareTag("Pcolider") && col.GetComponent<Col>().playerScrp.isSkill)
+                    {
+                        playerScrp.nhp = -1;
+                        playerScrp.WatchScrp.GetLive(playerScrp.isLive);
+                    }
+                    if (playerScrp.nhp <= 0 && col.CompareTag("Pcolider") && playerScrp)
+                    {
+                        playerScrp.isLive = false;
+                        GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}:{1}", playerScrp.myIdx, col.GetComponent<Col>().playerScrp.myIdx));
+                    }
                 }
-                else if (col.CompareTag("Pcolider") && col.GetComponent<Col>().playerScrp.isSkill)
-                {
-                    playerScrp.nhp = -1;
-                    playerScrp.WatchScrp.GetLive(playerScrp.isLive);
-                }
-                if (playerScrp.nhp <= 0 && col.CompareTag("Pcolider")) GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}:{1}", playerScrp.myIdx, col.GetComponent<Col>().playerScrp.myIdx));
             }
-        }
+        //}
     }
 
-    void OnTriggerExit2d(Collider2D col)
+    void OnTriggerExit2D(Collider2D col)
     {
-        if (SGameMng.I.bStartCheck)
-        {
-            if (!playerScrp.proper.Equals(PROPER.POLICE))       // 경찰이 아닐때
+        //if (playerScrp.isPlayer)
+        //{
+            if (SGameMng.I.bStartCheck)
             {
-                if (col.CompareTag("Pcolider") && col.GetComponent<Col>().playerScrp.isSkill)
+                if (!playerScrp.proper.Equals(PROPER.POLICE))       // 경찰이 아닐때
                 {
-                    playerScrp.nhp = -1;
-                    playerScrp.WatchScrp.GetLive(playerScrp.isLive);
+                    if (col.CompareTag("Pcolider") && col.GetComponent<Col>().playerScrp.isSkill)
+                    {
+                        playerScrp.nhp = -1;
+                        playerScrp.WatchScrp.GetLive(playerScrp.isLive);
+                    }
                 }
             }
-        }
+        //}
     }
 }
