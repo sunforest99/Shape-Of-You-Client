@@ -41,8 +41,8 @@ public class SUi : MonoBehaviour
             timer.color = new Color(1f, 0.74f, 0, 1);
         else if (timer.text.Equals("0:30"))
             timer.color = new Color(1f, 0.27f, 0.32f, 1f);
-        else if (timer.text.Equals("2:59"))
-            timer.color = new Color(1f, 1f, 1f,1f);
+        else if (timer.text.Equals("READY"))
+            timer.color = new Color(1f, 1f, 1f, 1f);
 
         if (GM.NetworkManager.getInstance.isAdmin && !SGameMng.I.bStartCheck)
             BtnGame.SetActive(true);

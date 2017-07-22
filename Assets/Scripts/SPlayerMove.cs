@@ -44,7 +44,7 @@ public class SPlayerMove : MonoBehaviour
         {
             if (proper == PROPER.POLICE) { SGameMng.I.uiScrp.GetSkill(nhp.ToString()); }
             Blind();
-            if (gameObject.tag.Equals("Police") && !bStartup) KeyDown();
+            if (!bStartup) KeyDown();
             else KeyDown();
 
             if (myMove != beforeMove && !bStartup)
@@ -54,21 +54,23 @@ public class SPlayerMove : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.Space) && proper.Equals(PROPER.POLICE) && !isSkill && !bStartup)
             {
-                GM.NetworkManager.getInstance.SendMsg(string.Format("ATTACK:{0}", myIdx));
-                Attack();
+                if (nhp <= 1)
+                {
+                    GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}:{1}", myIdx, myIdx));
+                    Debug.Log("죽은놈" + myIdx); Debug.Log("죽인놈" + myIdx);
+                    isLive = false;
+                }
+                else GM.NetworkManager.getInstance.SendMsg(string.Format("ATTACK:{0}", myIdx));
+                //Attack();  
                 Debug.Log("attack down");
             }
 
             WatchScrp.Move(this.transform);
         }
-        if (isLive && nhp <= 0)
-        {
-            Debug.Log("PlayerDie");
-            Die();
-        }
+
         if (gameObject.tag.Equals("Police") && bStartup) myMove = 0;
         else Move();
-       
+
     }
 
     public void SetUp()
@@ -96,9 +98,11 @@ public class SPlayerMove : MonoBehaviour
     public void Attack()
     {
         nhp -= 1;
+
         if (nhp >= 0)
             StartCoroutine("Big");
         else nhp = 0;
+
     }
 
     IEnumerator Big()
@@ -126,14 +130,6 @@ public class SPlayerMove : MonoBehaviour
         }
     }
 
-    void Die()
-    {
-        if (nhp <= 0)
-        {
-            if(proper==PROPER.POLICE) GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}:{1}", myIdx, myIdx));
-            gameObject.SetActive(false);
-        }
-    }
 
     void Blind()
     {
