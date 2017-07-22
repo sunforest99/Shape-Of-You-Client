@@ -245,7 +245,6 @@ namespace GM
             }
             else if (txt[0].Equals("ATTACK"))
             {
-                Debug.Log("ATTACK MESSAGE");
                 for (int i = 0; i < v_user.Count; i++)
                 {
                     if (v_user[i] != null)
@@ -259,7 +258,6 @@ namespace GM
             }
             else if (txt[0].Equals("DIE"))
             {
-                Debug.Log("DIELog");
                 int idx = int.Parse(txt[1]);
                 int tIdx = int.Parse(txt[2]);
                 string tName = "";
@@ -333,7 +331,7 @@ namespace GM
                             v_user[i].proper = (PROPER)int.Parse(txt[2]);
                             if (v_user[i].proper.Equals(PROPER.POLICE)) { v_user[i].gameObject.tag = "Pcolider"; v_user[i].fSpeed = 10f; v_user[i].bStartup = true; }
                             v_user[i].color = (COLOR)int.Parse(txt[3]);
-                            Debug.Log((PROPER)int.Parse(txt[2]));
+
                             if (v_user[i].proper.Equals(PROPER.POLICE))
                             {
                                 SGameMng.I.policeCount++;
@@ -352,7 +350,6 @@ namespace GM
             }
             else if (txt[0].Equals("DONE"))
             {
-                Debug.Log("G DONE");
                 SGameMng.I.OpenResult((PROPER)int.Parse(txt[1]), int.Parse(txt[2]));
                 SGameMng.I.sTimer = "READY";
                 //// 게임  끝남
@@ -395,6 +392,7 @@ namespace GM
             else if (txt[0].Equals("LOGOUT"))
             {
                 int idx = int.Parse(txt[1]);
+                bool checkNextAdmin = false;
 
                 for (int i = 0; i < v_user.Count; i++)
                 {
@@ -403,13 +401,21 @@ namespace GM
                         {
                             Destroy(v_user[i].gameObject);
                             v_user.RemoveAt(i);
+                            checkNextAdmin = true;
+                        }
+                        else if (!v_user[i].isPlayer && checkNextAdmin)
+                        {
+                            break;
+                        }
+                        else if (v_user[i].isPlayer && checkNextAdmin)
+                        {
+                            isAdmin = true;
                             break;
                         }
                 }
             }
             else if (txt[0].Equals("CONNECT"))
             {
-                Debug.Log("Connected.");
                 SendMsg(string.Format("LOGIN:{0}", nickName));
             }
             else if (txt[0].Equals("WAIT"))
@@ -423,7 +429,6 @@ namespace GM
                 //_sound.gameBGM();
                 //v_user[v_user.Count - 1].gameObject.SetActive(false);
                 //v_user[v_user.Count - 1].isLive = false;
-                Debug.Log("Wait");
             }
         }
         /**
