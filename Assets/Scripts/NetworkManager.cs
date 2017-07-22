@@ -221,37 +221,13 @@ namespace GM
             string msg = Encoding.UTF8.GetString(this.buf, 2, len - 2);
             string[] txt = msg.Split(':');
 
-            if (txt[0].Equals("CONNECT"))
-            {
-                Debug.Log("Connected.");
-                SendMsg(string.Format("LOGIN:{0}", nickName));
-            }
-            else if (txt[0].Equals("USER"))
-            {
-                // 기존 유저를 생성할때 호출됨
-                /* nick, posX, posY, move_control, direction */
-                CreateUser(int.Parse(txt[1]), txt[2], new Vector3(float.Parse(txt[3]), float.Parse(txt[4]), 0), (MOVE_CONTROL)int.Parse(txt[5]), false);
-            }
-            else if (txt[0].Equals("ADDUSER"))
-            {
-                // // 사람이 입장하기 전에 유저가 한명 이하라는 것은 본인이 방장임을 뜻함
-                if (v_user.Count < 1) isAdmin = true;
-                else isAdmin = false;
-
-                // 새로운 유저를 생성할때 호출됨
-                CreateUser(int.Parse(txt[1]), nickName, Vector3.zero, MOVE_CONTROL.STOP, true);
-            }
-            else if (txt[0].Equals("CHAT"))
-            {
-                SGameMng.I._chat.chat(string.Format("[{0}] : {1}", txt[1], txt[2]));
-            }
-            else if (txt[0].Equals("MOVE"))
+            if (txt[0].Equals("MOVE"))
             {
                 int idx = int.Parse(txt[1]);
                 for (int i = 0; i < v_user.Count; i++)
                 {
                     if (v_user[i] != null)
-                        if (v_user[i].myIdx == idx)
+                        if (v_user[i].myIdx.Equals(idx))
                         {
                             v_user[i].transform.position = new Vector3(float.Parse(txt[2]), float.Parse(txt[3]), 0f);
                             v_user[i].myMove = (MOVE_CONTROL)int.Parse(txt[4]);
@@ -259,75 +235,13 @@ namespace GM
                         }
                 }
             }
-            else if (txt[0].Equals("LOGOUT"))
+            else if (txt[0].Equals("CHAT"))
             {
-                int idx = int.Parse(txt[1]);
-
-                for (int i = 0; i < v_user.Count; i++)
-                {
-                    if (v_user[i] != null)
-                        if (v_user[i].myIdx == idx)
-                        {
-                            Destroy(v_user[i].gameObject);
-                            v_user.RemoveAt(i);
-                            break;
-                        }
-                }
+                SGameMng.I._chat.chat(string.Format("[{0}] : {1}", txt[1], txt[2]));
             }
-            else if (txt[0].Equals("START"))
+            else if (txt[0].Equals("TIME"))
             {
-                SGameMng.I.sTimer = "START";
-                SGameMng.I.MapCtrl(int.Parse(txt[1]));
-                _sound.gameBGM();
-                SGameMng.I.InfoGame.SetActive(false);
-                for (int i = 0; i < v_user.Count; i++)
-                {
-                    v_user[i].transform.localPosition = Vector3.zero;
-                }
-            }
-            else if (txt[0].Equals("CHANGE"))
-            {
-                int idx = int.Parse(txt[1]);
-                for (int i = 0; i < v_user.Count; i++)
-                {
-                    if (v_user[i] != null)
-                        if (v_user[i].myIdx == idx)
-                        {
-                            v_user[i].color = (COLOR)int.Parse(txt[2]);
-                            v_user[i].ChangeColor();
-                            break;
-                        }
-                }
-            }
-            else if (txt[0].Equals("PROPER"))
-            {
-
-                int idx = int.Parse(txt[1]);
-                for (int i = 0; i < v_user.Count; i++)
-                {
-
-                    if (v_user[i] != null)
-                        if (v_user[i].myIdx == idx)
-                        {
-                            v_user[i].proper = (PROPER)int.Parse(txt[2]);
-                            if (v_user[i].proper == PROPER.POLICE) { v_user[i].gameObject.tag = "Pcolider"; v_user[i].fSpeed = 10f; v_user[i].bStartup = true; }
-                            v_user[i].color = (COLOR)int.Parse(txt[3]);
-                            Debug.Log((PROPER)int.Parse(txt[2]));
-                            if (v_user[i].proper.Equals(PROPER.POLICE))
-                            {
-                                SGameMng.I.policeCount++;
-                                SGameMng.I.policeCountTxt.text = SGameMng.I.policeCount + "";
-                            }
-                            else
-                            {
-                                SGameMng.I.thiefCount++;
-                                SGameMng.I.thiefCountTxt.text = SGameMng.I.thiefCount + "";
-                                if (v_user[i].isPlayer)
-                                    SGameMng.I.uiScrp.start();
-                            }
-                            v_user[i].SetUp();
-                        }
-                }
+                SGameMng.I.sTimer = string.Format("{0,00}:{1,00}", int.Parse(txt[1]) / 60, int.Parse(txt[1]) % 60);
             }
             else if (txt[0].Equals("ATTACK"))
             {
@@ -335,17 +249,13 @@ namespace GM
                 for (int i = 0; i < v_user.Count; i++)
                 {
                     if (v_user[i] != null)
-                        if (v_user[i].myIdx == int.Parse(txt[1]))
+                        if (v_user[i].myIdx.Equals(int.Parse(txt[1])))
                         {
                             // 공격
                             v_user[i].Attack();
                             break;
                         }
                 }
-            }
-            else if (txt[0].Equals("TIME"))
-            {
-                SGameMng.I.sTimer = string.Format("{0,00}:{1,00}", int.Parse(txt[1]) / 60, int.Parse(txt[1]) % 60);
             }
             else if (txt[0].Equals("DIE"))
             {
@@ -369,12 +279,12 @@ namespace GM
                             if (v_user[i].proper.Equals(PROPER.POLICE))
                             {
                                 SGameMng.I.policeCount--;
-                                SGameMng.I.policeCountTxt.text = SGameMng.I.policeCount + "";
+                                SGameMng.I.policeCountTxt.text = string.Format("{0}", SGameMng.I.policeCount);
                             }
                             else
                             {
                                 SGameMng.I.thiefCount--;
-                                SGameMng.I.thiefCountTxt.text = SGameMng.I.thiefCount + "";
+                                SGameMng.I.thiefCountTxt.text = string.Format("{0}", SGameMng.I.thiefCount);
                             }
                             if (v_user[i].isPlayer)
                             {
@@ -396,6 +306,50 @@ namespace GM
                     }
                 }
             }
+            else if (txt[0].Equals("CHANGE"))
+            {
+                int idx = int.Parse(txt[1]);
+                for (int i = 0; i < v_user.Count; i++)
+                {
+                    if (v_user[i] != null)
+                        if (v_user[i].myIdx.Equals(idx))
+                        {
+                            v_user[i].color = (COLOR)int.Parse(txt[2]);
+                            v_user[i].ChangeColor();
+                            break;
+                        }
+                }
+            }
+            else if (txt[0].Equals("PROPER"))
+            {
+
+                int idx = int.Parse(txt[1]);
+                for (int i = 0; i < v_user.Count; i++)
+                {
+
+                    if (v_user[i] != null)
+                        if (v_user[i].myIdx.Equals(idx))
+                        {
+                            v_user[i].proper = (PROPER)int.Parse(txt[2]);
+                            if (v_user[i].proper.Equals(PROPER.POLICE)) { v_user[i].gameObject.tag = "Pcolider"; v_user[i].fSpeed = 10f; v_user[i].bStartup = true; }
+                            v_user[i].color = (COLOR)int.Parse(txt[3]);
+                            Debug.Log((PROPER)int.Parse(txt[2]));
+                            if (v_user[i].proper.Equals(PROPER.POLICE))
+                            {
+                                SGameMng.I.policeCount++;
+                                SGameMng.I.policeCountTxt.text = string.Format("{0}", SGameMng.I.policeCount);
+                            }
+                            else
+                            {
+                                SGameMng.I.thiefCount++;
+                                SGameMng.I.thiefCountTxt.text = string.Format("{0}", SGameMng.I.thiefCount);
+                                if (v_user[i].isPlayer)
+                                    SGameMng.I.uiScrp.start();
+                            }
+                            v_user[i].SetUp();
+                        }
+                }
+            }
             else if (txt[0].Equals("DONE"))
             {
                 Debug.Log("G DONE");
@@ -412,11 +366,57 @@ namespace GM
                 //    }
                 //}
             }
+            else if (txt[0].Equals("START"))
+            {
+                SGameMng.I.sTimer = "START";
+                SGameMng.I.MapCtrl(int.Parse(txt[1]));
+                _sound.gameBGM();
+                SGameMng.I.InfoGame.SetActive(false);
+                for (int i = 0; i < v_user.Count; i++)
+                {
+                    v_user[i].transform.localPosition = Vector3.zero;
+                }
+            }
+            else if (txt[0].Equals("USER"))
+            {
+                // 기존 유저를 생성할때 호출됨
+                /* nick, posX, posY, move_control, direction */
+                CreateUser(int.Parse(txt[1]), txt[2], new Vector3(float.Parse(txt[3]), float.Parse(txt[4]), 0), (MOVE_CONTROL)int.Parse(txt[5]), false);
+            }
+            else if (txt[0].Equals("ADDUSER"))
+            {
+                // // 사람이 입장하기 전에 유저가 한명 이하라는 것은 본인이 방장임을 뜻함
+                if (v_user.Count < 1) isAdmin = true;
+                else isAdmin = false;
+
+                // 새로운 유저를 생성할때 호출됨
+                CreateUser(int.Parse(txt[1]), nickName, Vector3.zero, MOVE_CONTROL.STOP, true);
+            }
+            else if (txt[0].Equals("LOGOUT"))
+            {
+                int idx = int.Parse(txt[1]);
+
+                for (int i = 0; i < v_user.Count; i++)
+                {
+                    if (v_user[i] != null)
+                        if (v_user[i].myIdx.Equals(idx))
+                        {
+                            Destroy(v_user[i].gameObject);
+                            v_user.RemoveAt(i);
+                            break;
+                        }
+                }
+            }
+            else if (txt[0].Equals("CONNECT"))
+            {
+                Debug.Log("Connected.");
+                SendMsg(string.Format("LOGIN:{0}", nickName));
+            }
             else if (txt[0].Equals("WAIT"))
             {
                 for (int i = 0; i < v_user.Count; i++)
                 {
-                    if (v_user[i].myIdx == v_user.Count - 1)
+                    if (v_user[i].myIdx.Equals(v_user.Count - 1))
                         SceneManager.LoadScene("Login");
                 }
                 //SGameMng.I.MapCtrl(int.Parse(txt[1]));

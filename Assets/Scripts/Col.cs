@@ -19,7 +19,7 @@ public class Col : MonoBehaviour
             {
                 if (!playerScrp.proper.Equals(PROPER.POLICE))       // 경찰이 아닐때
                 {
-                    if (col.CompareTag("Pcolider") && col.GetComponent<Col>().playerScrp.color == playerScrp.color && !col.GetComponent<Col>().playerScrp.bStartup)
+                    if (col.CompareTag("Pcolider") && col.GetComponent<Col>().playerScrp.color.Equals(playerScrp.color) && !col.GetComponent<Col>().playerScrp.bStartup)
                     {
                         playerScrp.nhp = -1;
                         playerScrp.WatchScrp.GetLive(playerScrp.isLive);

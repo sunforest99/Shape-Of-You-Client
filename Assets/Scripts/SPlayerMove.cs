@@ -42,7 +42,7 @@ public class SPlayerMove : MonoBehaviour
     {
         if (isPlayer && isLive)
         {
-            if (proper == PROPER.POLICE) { SGameMng.I.uiScrp.GetSkill(nhp.ToString()); }
+            if (proper.Equals(PROPER.POLICE)) { SGameMng.I.uiScrp.GetSkill(nhp.ToString()); }
             Blind();
             if (!bStartup) KeyDown();
 
@@ -56,12 +56,9 @@ public class SPlayerMove : MonoBehaviour
                 if (nhp <= 1)
                 {
                     GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}:{1}", myIdx, myIdx));
-                    Debug.Log("죽은놈" + myIdx); Debug.Log("죽인놈" + myIdx);
                     isLive = false;
                 }
                 else GM.NetworkManager.getInstance.SendMsg(string.Format("ATTACK:{0}", myIdx));
-                //Attack();  
-                Debug.Log("attack down");
             }
 
             WatchScrp.Move(this.transform);
@@ -121,7 +118,7 @@ public class SPlayerMove : MonoBehaviour
     {
         for (int i = 0; i < (int)COLOR.E_MAX; i++)
         {
-            if (i == (int)color)
+            if (i.Equals((int)color))
                 sprite.color = colorcls[i];
         }
     }
@@ -129,9 +126,8 @@ public class SPlayerMove : MonoBehaviour
 
     void Blind()
     {
-        if (proper == PROPER.POLICE && !bBlind)
+        if (proper.Equals(PROPER.POLICE) && !bBlind)
         {
-            Debug.Log(colscrp.gameObject.tag);
             bStartup = true;
             SGameMng.I.uiScrp.SkillUiActive();
             blindGame.SetActive(true);
@@ -155,22 +151,22 @@ public class SPlayerMove : MonoBehaviour
 
     void Move()
     {
-        if (myMove == MOVE_CONTROL.UP)
+        if (myMove.Equals(MOVE_CONTROL.UP))
         {
             //anim.Play("UP");
             transform.Translate(Vector3.up * fSpeed * Time.deltaTime);
         }
-        else if (myMove == MOVE_CONTROL.DOWN)
+        else if (myMove.Equals(MOVE_CONTROL.DOWN))
         {
             //anim.Play("DOWN");
             transform.Translate(Vector3.down * fSpeed * Time.deltaTime);
         }
-        else if (myMove == MOVE_CONTROL.LEFT)
+        else if (myMove.Equals(MOVE_CONTROL.LEFT))
         {
             //anim.Play("LEFT");
             transform.Translate(Vector3.left * fSpeed * Time.deltaTime);
         }
-        else if (myMove == MOVE_CONTROL.RIGHT)
+        else if (myMove.Equals(MOVE_CONTROL.RIGHT))
         {
             //anim.Play("RIGHT");
             transform.Translate(Vector3.right * fSpeed * Time.deltaTime);

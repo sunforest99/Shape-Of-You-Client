@@ -7,13 +7,11 @@ public class Reset : MonoBehaviour
 {
     public void ResetFn()
     {
-        Debug.Log("RESET !!!!!!");
-
         SGameMng.I.gameObject.SendMessage("reset");
 
         for (int i = 0; i < GM.NetworkManager.getInstance.v_user.Count; i++)
         {
-            if (GM.NetworkManager.getInstance.v_user[i] != null)
+            if (!GM.NetworkManager.getInstance.v_user[i].Equals(null))
             {
                 GM.NetworkManager.getInstance.v_user[i].gameObject.SetActive(true);
                 GM.NetworkManager.getInstance.v_user[i].gameObject.tag = "General";

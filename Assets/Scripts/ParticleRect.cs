@@ -15,7 +15,7 @@ public class ParticleRect : MonoBehaviour
         sPos = transform.position;
         rot = Random.Range(-3f, 3f);
 
-        if (Random.Range(0, 2) == 0)
+        if (Random.Range(0, 2).Equals(0))
             StartCoroutine("scaleBig", Random.Range(0f, 10f));
         else
             StartCoroutine("scaleSmall", Random.Range(0f, 10f));

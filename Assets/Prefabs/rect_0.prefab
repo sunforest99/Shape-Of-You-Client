@@ -364,10 +364,12 @@ MonoBehaviour:
   - {r: 0.90588236, g: 0.29803923, b: 0.23529412, a: 1}
   - {r: 0.58431375, g: 0.64705884, b: 0.6509804, a: 1}
   - {r: 0.23529412, g: 0.3137255, b: 0.39607844, a: 1}
+  isSkill: 0
   myMove: 0
   beforeMove: 0
   proper: 0
   color: 0
+  WatchScrp: {fileID: 0}
   sprite: {fileID: 212258681561516700}
 --- !u!114 &114877968203544632
 MonoBehaviour:
@@ -533,7 +535,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: aa759496e1ce8c543818fcaaacfb0a93, type: 3}
   m_Color: {r: 0.6392157, g: 0.56078434, b: 0.5176471, a: 0}
   m_FlipX: 0

@@ -24,15 +24,15 @@ public class SWatching : MonoBehaviour
             {
                 transform.Translate(Vector3.up * 12f * Time.deltaTime);
             }
-            else if (Input.GetKey(KeyCode.DownArrow))
+           if (Input.GetKey(KeyCode.DownArrow))
             {
                 transform.Translate(Vector3.down * 12f * Time.deltaTime);
             }
-            else if(Input.GetKey(KeyCode.LeftArrow))
+            if(Input.GetKey(KeyCode.LeftArrow))
             {
                 transform.Translate(Vector3.left * 12f * Time.deltaTime);
             }
-            else if(Input.GetKey(KeyCode.RightArrow))
+            if(Input.GetKey(KeyCode.RightArrow))
             {
                 transform.Translate(Vector3.right * 12f * Time.deltaTime);
             }

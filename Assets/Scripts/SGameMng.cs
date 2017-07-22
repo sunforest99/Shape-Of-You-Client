@@ -37,7 +37,7 @@ public class SGameMng : MonoBehaviour
     {
         get
         {
-            if (_Instance == null)
+            if (_Instance.Equals(null))
             {
                 Debug.Log("instance is null");
             }
