@@ -40,7 +40,7 @@ public class SPlayerMove : MonoBehaviour
     {
         if (isPlayer && isLive)
         {
-            if (proper == PROPER.POLICE) { SGameMng.I.uiScrp.GetSkill(nhp.ToString()); fSpeed = 10f; }
+            if (proper == PROPER.POLICE) { SGameMng.I.uiScrp.GetSkill(nhp.ToString()); }
             Blind();
             if (Input.GetKey(KeyCode.UpArrow)) myMove = MOVE_CONTROL.UP;
             else if (Input.GetKey(KeyCode.LeftArrow)) myMove = MOVE_CONTROL.LEFT;
@@ -183,7 +183,6 @@ public class SPlayerMove : MonoBehaviour
         if (SGameMng.I.sTimer.Equals("2:45"))
         {
             bStartup = false;
-            bBlind = false;
             blindGame.SetActive(false);
             fSpeed = 10f;
         }
