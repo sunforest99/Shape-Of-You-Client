@@ -275,6 +275,7 @@ namespace GM
             }
             else if (txt[0].Equals("START"))
             {
+                SGameMng.I.sTimer = "START";
                 SGameMng.I.MapCtrl(int.Parse(txt[1]));
                 _sound.gameBGM();
                 for (int i = 0; i < v_user.Count; i++)
@@ -368,7 +369,7 @@ namespace GM
             {
                 Debug.Log("G DONE");
                 SGameMng.I.OpenResult((PROPER)int.Parse(txt[1]), int.Parse(txt[2]));
-
+                SGameMng.I.sTimer = "READY";
                 //// 게임  끝남
                 //for (int i = 0; i < v_user.Count; i++)
                 //{

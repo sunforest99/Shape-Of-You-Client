@@ -31,21 +31,50 @@ public class ParticleRect : MonoBehaviour
         transform.position += new Vector3(1.5f, -1) * speed * Time.deltaTime;
         if (transform.position.x > 50 || lTime >= 20)
         {
+            transform.GetChild(1).gameObject.SetActive(false);
             transform.position = sPos;
             lTime = 0;
+            StartCoroutine("openTail");
         }
+    }
+
+    IEnumerator openTail()
+    {
+        yield return new WaitForSeconds(1);
+
+        transform.GetChild(1).gameObject.SetActive(true);
     }
 
     IEnumerator scaleBig(float count)
     {
         yield return new WaitForSeconds(count);
-        while (transform.localScale.x < 1.3f)
+        while (transform.localScale.x < 1.4f)
         {
             transform.localScale = transform.localScale + new Vector3(0.02f, 0.02f);
             yield return new WaitForSeconds(0.1f);
         }
         StopCoroutine("scaleBig");
-        StartCoroutine("scaleSmall", Random.Range(0f, 10f));
+        if (Random.Range(0, 2).Equals(0))
+            StartCoroutine("scaleSmall", Random.Range(0f, 10f));
+        else
+            StartCoroutine("scaleOrigin", Random.Range(0f, 10f));
+    }
+    IEnumerator scaleOrigin(float count)
+    {
+        yield return new WaitForSeconds(count);
+        while (transform.localScale.x > 1 || transform.localScale.x < 1)
+        {
+            if (transform.localScale.x > 1)
+                transform.localScale = transform.localScale - new Vector3(0.02f, 0.02f);
+            else
+                transform.localScale = transform.localScale + new Vector3(0.02f, 0.02f);
+            yield return new WaitForSeconds(0.1f);
+        }
+        StopCoroutine("scaleOrigin");
+        if (Random.Range(0, 2).Equals(0))
+            StartCoroutine("scaleBig", Random.Range(0f, 10f));
+        else
+            StartCoroutine("scaleSmall", Random.Range(0f, 10f));
     }
     IEnumerator scaleSmall(float count)
     {
@@ -56,6 +85,9 @@ public class ParticleRect : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         StopCoroutine("scaleSmall");
-        StartCoroutine("scaleBig", Random.Range(0f, 10f));
+        if (Random.Range(0, 2).Equals(0))
+            StartCoroutine("scaleBig", Random.Range(0f, 10f));
+        else
+            StartCoroutine("scaleOrigin", Random.Range(0f, 10f));
     }
 }

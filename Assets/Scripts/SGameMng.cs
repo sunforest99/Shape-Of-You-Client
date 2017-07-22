@@ -54,7 +54,7 @@ public class SGameMng : MonoBehaviour
 
     public SUi uiScrp;
    
-    public string sTimer;
+    public string sTimer = "READY";
     public bool bStartCheck;
     public int thiefCount = 0;
     public int policeCount = 0;
@@ -139,6 +139,7 @@ public class SGameMng : MonoBehaviour
             p_1.gameObject.SetActive(true);
             p_1.gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = v_nickList[0];
             mvpObj.transform.position = p_1.gameObject.transform.position;
+            StartCoroutine("mvpOpen", 1.6f);
         }
         else if (v_nickList.Count.Equals(2))
         {
@@ -148,6 +149,7 @@ public class SGameMng : MonoBehaviour
                 p_2[i].gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = v_nickList[i];
             }
             mvpObj.transform.position = p_2[lIdx].gameObject.transform.position;
+            StartCoroutine("mvpOpen", 1.75f);
         }
         else if (v_nickList.Count.Equals(3))
         {
@@ -157,6 +159,7 @@ public class SGameMng : MonoBehaviour
                 p_3[i].gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = v_nickList[i];
             }
             mvpObj.transform.position = p_3[lIdx].gameObject.transform.position;
+            StartCoroutine("mvpOpen", 1.9f);
         }
         else if (v_nickList.Count.Equals(4))
         {
@@ -166,6 +169,7 @@ public class SGameMng : MonoBehaviour
                 p_4[i].gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = v_nickList[i];
             }
             mvpObj.transform.position = p_4[lIdx].gameObject.transform.position;
+            StartCoroutine("mvpOpen", 2.05f);
         }
         else if (v_nickList.Count.Equals(5))
         {
@@ -175,6 +179,7 @@ public class SGameMng : MonoBehaviour
                 p_5[i].gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = v_nickList[i];
             }
             mvpObj.transform.position = p_5[lIdx].gameObject.transform.position;
+            StartCoroutine("mvpOpen", 2.2f);
         }
         else if (v_nickList.Count.Equals(6))
         {
@@ -184,7 +189,39 @@ public class SGameMng : MonoBehaviour
                 p_6[i].gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = v_nickList[i];
             }
             mvpObj.transform.position = p_6[lIdx].gameObject.transform.position;
+            StartCoroutine("mvpOpen", 2.35f);
         }
         resultAnim.SetTrigger("RESULT");
+    }
+    
+    IEnumerator mvpOpen(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        while (mvpObj.transform.localScale.x < 1.2f)
+        {
+            mvpObj.transform.localScale += new Vector3(0.05f, 0.05f);
+            yield return new WaitForSeconds(0.01f);
+        }
+        while (mvpObj.transform.localScale.x > 1)
+        {
+            mvpObj.transform.localScale -= new Vector3(0.05f, 0.05f);
+            yield return new WaitForSeconds(0.01f);
+        }
+        mvpObj.transform.localScale = new Vector3(1, 1);
+    }
+    IEnumerator mvpClose()
+    {
+        while (mvpObj.transform.localScale.x > 0)
+        {
+            mvpObj.transform.localScale -= new Vector3(0.05f, 0.05f);
+            yield return new WaitForSeconds(0.01f);
+        }
+        mvpObj.transform.localScale = new Vector3(0, 0);
+    }
+
+    public void reset()
+    {
+        StartCoroutine("mvpClose");
     }
 }

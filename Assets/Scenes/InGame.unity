@@ -2862,7 +2862,7 @@ MonoBehaviour:
   - {fileID: 1725106332}
   - {fileID: 1120263821}
   uiScrp: {fileID: 1564758762}
-  sTimer: 
+  sTimer: READY
   bStartCheck: 0
   thiefCount: 0
   policeCount: 0
@@ -2897,7 +2897,7 @@ MonoBehaviour:
   - {fileID: 1054883963}
   - {fileID: 1386735912}
   resultAnim: {fileID: 1478585420}
-  mvpObj: {fileID: 0}
+  mvpObj: {fileID: 508923667}
 --- !u!4 &660350549
 Transform:
   m_ObjectHideFlags: 0
