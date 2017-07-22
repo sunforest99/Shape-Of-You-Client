@@ -23,6 +23,7 @@ public class Reset : MonoBehaviour
                 GM.NetworkManager.getInstance.v_user[i].fSpeed = 9f;
                 GM.NetworkManager.getInstance.v_user[i].proper = PROPER.GENERAL;
                 GM.NetworkManager.getInstance.v_user[i].color = COLOR.WHITE;
+                GM.NetworkManager.getInstance.v_user[i].colscrp.gameObject.tag = "col";
             }
         }
         SGameMng.I.bStartCheck = false;

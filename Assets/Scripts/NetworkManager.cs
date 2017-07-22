@@ -308,7 +308,7 @@ namespace GM
                         if (v_user[i].myIdx == idx)
                         {
                             v_user[i].proper = (PROPER)int.Parse(txt[2]);
-                            v_user[i].color = (COLOR)int.Parse(txt[3]);
+                            v_user[i].color = COLOR.GREEN /*(COLOR)int.Parse(txt[3])*/;
                             Debug.Log((PROPER)int.Parse(txt[2]));
                             if (v_user[i].proper.Equals(PROPER.POLICE))
                             {
