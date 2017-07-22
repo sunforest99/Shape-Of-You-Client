@@ -120,7 +120,7 @@ public class SGameMng : MonoBehaviour
                     v_nickList.Add(GM.NetworkManager.getInstance.v_user[i].nickName);
 
                 if (GM.NetworkManager.getInstance.v_user[i].myIdx.Equals(mvpIdx))
-                    lIdx = i;
+                    lIdx = v_nickList.Count - 1;
             }
 
 

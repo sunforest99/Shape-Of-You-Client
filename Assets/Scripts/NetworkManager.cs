@@ -321,6 +321,8 @@ namespace GM
                             {
                                 SGameMng.I.thiefCount++;
                                 SGameMng.I.thiefCountTxt.text = SGameMng.I.thiefCount + "";
+                                if (v_user[i].isPlayer)
+                                    SGameMng.I.uiScrp.start();
                             }
                             v_user[i].SetUp();
                         }
@@ -347,10 +349,18 @@ namespace GM
             else if (txt[0].Equals("DIE"))
             {
                 int idx = int.Parse(txt[1]);
+                int tIdx = int.Parse(txt[2]);
+                string tName = "";
+
                 for (int i = 0; i < v_user.Count; i++)
                 {
                     if (v_user[i] != null)
-                        if (v_user[i].myIdx == idx)
+                    {
+                        if (v_user[i].myIdx.Equals(tIdx))
+                        {
+                            tName = v_user[i].nickName;
+                        }
+                        if (v_user[i].myIdx.Equals(idx))
                         {
                             v_user[i].isLive = false;
                             v_user[i].gameObject.SetActive(false);
@@ -364,8 +374,24 @@ namespace GM
                                 SGameMng.I.thiefCount--;
                                 SGameMng.I.thiefCountTxt.text = SGameMng.I.thiefCount + "";
                             }
+                            if (v_user[i].isPlayer)
+                            {
+                                if (tName.Equals(""))
+                                {
+                                    for (int j = i; j < v_user.Count; j++)
+                                    {
+                                        if (v_user[j].myIdx.Equals(tIdx))
+                                        {
+                                            tName = v_user[j].nickName;
+                                            break;
+                                        }
+                                    }
+                                }
+                                SGameMng.I.uiScrp.imdie(txt[2]);
+                            }
                             break;
                         }
+                    }
                 }
             }
             else if (txt[0].Equals("DONE"))

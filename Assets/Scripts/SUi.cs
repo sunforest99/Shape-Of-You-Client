@@ -20,6 +20,14 @@ public class SUi : MonoBehaviour
 
     bool isInfoOpen = false;
 
+    [SerializeField]
+    Animator contentAnim;
+    [SerializeField]
+    UnityEngine.UI.Text contentTitle;
+    [SerializeField]
+    UnityEngine.UI.Text contentSubTitle;
+    [SerializeField]
+    UnityEngine.UI.Text contentDesc;
 
     void Start()
     {
@@ -54,6 +62,24 @@ public class SUi : MonoBehaviour
             GM.NetworkManager.getInstance.SendMsg(string.Format("START"));
             BtnGame.SetActive(false);
         }
+    }
+
+    public void imdie(string name)
+    {
+        contentTitle.text = "- 사망 - ";
+        contentSubTitle.text = string.Format("[{0}] 님으로 부터 사망하셨습니다.", name);
+        contentDesc.text = "관전모드로 설정됩니다.";
+
+        contentAnim.SetTrigger("Content");
+    }
+
+    public void start()
+    {
+        contentTitle.text = "- GAME START -";
+        contentSubTitle.text = "15초후 경찰이 움직입니다.";
+        contentDesc.text = "경찰로부터 도망가십시오.";
+
+        contentAnim.SetTrigger("Content");
     }
     
     public void GetSkill(string sKill) { skillui.text = sKill; }
