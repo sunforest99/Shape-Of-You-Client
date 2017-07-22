@@ -19,15 +19,14 @@ public class SPlayerMove : MonoBehaviour
     public float fSpeed;
     public Col colscrp = null;
     public Color[] colorcls = null;
-    int idx;
-    bool isSkill;
+    public bool isSkill;
 
     public MOVE_CONTROL myMove = MOVE_CONTROL.STOP;
     public MOVE_CONTROL beforeMove = MOVE_CONTROL.STOP;
     public PROPER proper = PROPER.GENERAL;
     public COLOR color = COLOR.WHITE;
 
-    SWatching WatchScrp = null;
+    public SWatching WatchScrp = null;
     [SerializeField]
     SpriteRenderer sprite = null;
 
@@ -45,11 +44,8 @@ public class SPlayerMove : MonoBehaviour
         {
             if (proper == PROPER.POLICE) { SGameMng.I.uiScrp.GetSkill(nhp.ToString()); }
             Blind();
-            if (Input.GetKey(KeyCode.UpArrow)) myMove = MOVE_CONTROL.UP;
-            else if (Input.GetKey(KeyCode.LeftArrow)) myMove = MOVE_CONTROL.LEFT;
-            else if (Input.GetKey(KeyCode.RightArrow)) myMove = MOVE_CONTROL.RIGHT;
-            else if (Input.GetKey(KeyCode.DownArrow)) myMove = MOVE_CONTROL.DOWN;
-            else myMove = MOVE_CONTROL.STOP;
+            if (gameObject.tag.Equals("Police") && !bStartup) KeyDown();
+            else KeyDown();
 
             if (myMove != beforeMove && !bStartup)
             {
@@ -70,48 +66,9 @@ public class SPlayerMove : MonoBehaviour
             Debug.Log("PlayerDie");
             Die();
         }
-
-        if (myMove == MOVE_CONTROL.UP)
-        {
-            //anim.Play("UP");
-            transform.Translate(Vector3.up * fSpeed * Time.deltaTime);
-        }
-        else if (myMove == MOVE_CONTROL.DOWN)
-        {
-            //anim.Play("DOWN");
-            transform.Translate(Vector3.down * fSpeed * Time.deltaTime);
-        }
-        else if (myMove == MOVE_CONTROL.LEFT)
-        {
-            //anim.Play("LEFT");
-            transform.Translate(Vector3.left * fSpeed * Time.deltaTime);
-        }
-        else if (myMove == MOVE_CONTROL.RIGHT)
-        {
-            //anim.Play("RIGHT");
-            transform.Translate(Vector3.right * fSpeed * Time.deltaTime);
-        }
-    }
-
-    void OnTriggerEnter2D(Collider2D col)
-    {
-        if (SGameMng.I.bStartCheck)
-        {
-            if (!proper.Equals(PROPER.POLICE))       // 경찰이 아닐때
-            {
-                if (col.CompareTag("Pcolider") && colscrp.playerScrp.color == color && !bStartup)
-                {
-                    nhp = -1;
-                    WatchScrp.GetLive(isLive);
-                }
-                else if (col.CompareTag("Pcolider"))
-                {
-                    nhp = -1;
-                    WatchScrp.GetLive(isLive);
-                }
-                if (nhp <= 0 && col.CompareTag("col")) idx = colscrp.playerScrp.myIdx;
-            }
-        }
+        if (gameObject.tag.Equals("Police") && bStartup) myMove = 0;
+        else Move();
+       
     }
 
     public void SetUp()
@@ -174,7 +131,6 @@ public class SPlayerMove : MonoBehaviour
         if (nhp <= 0)
         {
             if(proper==PROPER.POLICE) GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}:{1}", myIdx, myIdx));
-            else GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}:{1}", myIdx, idx));
             gameObject.SetActive(false);
         }
     }
@@ -185,16 +141,47 @@ public class SPlayerMove : MonoBehaviour
         {
             Debug.Log(colscrp.gameObject.tag);
             bStartup = true;
-            SGameMng.I.uiScrp.SkillActive();
+            SGameMng.I.uiScrp.SkillUiActive();
             blindGame.SetActive(true);
-            fSpeed = 0f;
             bBlind = true;
         }
         if (SGameMng.I.sTimer.Equals("2:45"))
         {
             bStartup = false;
             blindGame.SetActive(false);
-            fSpeed = 10f;
+        }
+    }
+
+    void KeyDown()
+    {
+        if (Input.GetKey(KeyCode.UpArrow)) myMove = MOVE_CONTROL.UP;
+        else if (Input.GetKey(KeyCode.LeftArrow)) myMove = MOVE_CONTROL.LEFT;
+        else if (Input.GetKey(KeyCode.RightArrow)) myMove = MOVE_CONTROL.RIGHT;
+        else if (Input.GetKey(KeyCode.DownArrow)) myMove = MOVE_CONTROL.DOWN;
+        else myMove = MOVE_CONTROL.STOP;
+    }
+
+    void Move()
+    {
+        if (myMove == MOVE_CONTROL.UP)
+        {
+            //anim.Play("UP");
+            transform.Translate(Vector3.up * fSpeed * Time.deltaTime);
+        }
+        else if (myMove == MOVE_CONTROL.DOWN)
+        {
+            //anim.Play("DOWN");
+            transform.Translate(Vector3.down * fSpeed * Time.deltaTime);
+        }
+        else if (myMove == MOVE_CONTROL.LEFT)
+        {
+            //anim.Play("LEFT");
+            transform.Translate(Vector3.left * fSpeed * Time.deltaTime);
+        }
+        else if (myMove == MOVE_CONTROL.RIGHT)
+        {
+            //anim.Play("RIGHT");
+            transform.Translate(Vector3.right * fSpeed * Time.deltaTime);
         }
     }
 }

@@ -278,6 +278,7 @@ namespace GM
                 SGameMng.I.sTimer = "START";
                 SGameMng.I.MapCtrl(int.Parse(txt[1]));
                 _sound.gameBGM();
+                SGameMng.I.InfoGame.SetActive(false);
                 for (int i = 0; i < v_user.Count; i++)
                 {
                     v_user[i].transform.localPosition = Vector3.zero;
@@ -308,6 +309,7 @@ namespace GM
                         if (v_user[i].myIdx == idx)
                         {
                             v_user[i].proper = (PROPER)int.Parse(txt[2]);
+                            if (v_user[i].proper == PROPER.POLICE) { v_user[i].gameObject.tag = "Pcolider"; v_user[i].fSpeed = 10f; }
                             v_user[i].color = (COLOR)int.Parse(txt[3]);
                             Debug.Log((PROPER)int.Parse(txt[2]));
                             if (v_user[i].proper.Equals(PROPER.POLICE))
@@ -351,6 +353,7 @@ namespace GM
                         if (v_user[i].myIdx == idx)
                         {
                             v_user[i].isLive = false;
+                            v_user[i].gameObject.SetActive(false);
                             if (v_user[i].proper.Equals(PROPER.POLICE))
                             {
                                 SGameMng.I.policeCount--;

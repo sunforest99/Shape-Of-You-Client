@@ -3239,6 +3239,7 @@ MonoBehaviour:
   bStartCheck: 0
   thiefCount: 0
   policeCount: 0
+  InfoGame: {fileID: 1376992823}
   thiefCountTxt: {fileID: 295303181}
   policeCountTxt: {fileID: 1741638834}
   winnerThiefTxt: {fileID: 628006404}
@@ -4500,7 +4501,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -10.2, y: -156.29}
+  m_AnchoredPosition: {x: -10.200012, y: -156.29}
   m_SizeDelta: {x: 296.67, y: 10}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &972474213
@@ -5898,7 +5899,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1376992824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7073,7 +7074,6 @@ MonoBehaviour:
   timer: {fileID: 1527829987}
   skillui: {fileID: 1506995190}
   BtnGame: {fileID: 18808916}
-  InfoGame: {fileID: 1376992823}
   KillGame: {fileID: 96413304}
   infoAnim: {fileID: 1082364639}
   b_bg: {fileID: 1082364635}
