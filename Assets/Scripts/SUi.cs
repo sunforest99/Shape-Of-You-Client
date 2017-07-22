@@ -11,7 +11,17 @@ public class SUi : MonoBehaviour
     [SerializeField]
     GameObject BtnGame = null;
     [SerializeField]
+    GameObject InfoGame = null;
+    [SerializeField]
     GameObject KillGame = null;
+
+    [SerializeField]
+    Animator infoAnim;
+    [SerializeField]
+    GameObject b_bg;
+
+    bool isInfoOpen = false;
+
 
     void Start()
     {
@@ -30,6 +40,16 @@ public class SUi : MonoBehaviour
 
         if (GM.NetworkManager.getInstance.isAdmin && !SGameMng.I.bStartCheck)
             BtnGame.SetActive(true);
+        if (!SGameMng.I.bStartCheck)
+            InfoGame.SetActive(true);
+        else
+            InfoGame.SetActive(false);
+    }
+
+    public void infoBT()
+    {
+        isInfoOpen = isInfoOpen ? false : true;
+        infoAnim.SetBool("Open", isInfoOpen);
     }
 
     public void gameStart()
@@ -41,7 +61,7 @@ public class SUi : MonoBehaviour
             BtnGame.SetActive(false);
         }
     }
-
+    
     public void GetSkill(string sKill) { skillui.text = sKill; }
     public void SkillActive() { KillGame.SetActive(true); }
 }
