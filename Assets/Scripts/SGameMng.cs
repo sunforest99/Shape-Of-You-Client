@@ -58,7 +58,9 @@ public class SGameMng : MonoBehaviour
     public bool bStartCheck;
     public int thiefCount = 0;
     public int policeCount = 0;
-    
+
+    public GameObject InfoGame = null;
+
     public UnityEngine.UI.Text thiefCountTxt;
     public UnityEngine.UI.Text policeCountTxt;
 

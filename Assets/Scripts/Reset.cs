@@ -26,6 +26,8 @@ public class Reset : MonoBehaviour
                 GM.NetworkManager.getInstance.v_user[i].colscrp.gameObject.tag = "col";
             }
         }
+        SGameMng.I.uiScrp.SkillUiReset();
+        SGameMng.I.InfoGame.SetActive(true);
         SGameMng.I.bStartCheck = false;
         SGameMng.I.thiefCount = 0;
         SGameMng.I.thiefCountTxt.text = "0";
