@@ -20,6 +20,8 @@ public class SPlayerMove : MonoBehaviour
     public Col colscrp = null;
     public Color[] colorcls = null;
     public bool isSkill;
+    public bool bhold;
+    public Rigidbody2D rig2D = null;
 
     public MOVE_CONTROL myMove = MOVE_CONTROL.STOP;
     public MOVE_CONTROL beforeMove = MOVE_CONTROL.STOP;
@@ -43,10 +45,16 @@ public class SPlayerMove : MonoBehaviour
         if (isPlayer && isLive)
         {
             if (proper.Equals(PROPER.POLICE)) { SGameMng.I.uiScrp.GetSkill(nhp.ToString()); }
+            else if (proper.Equals(PROPER.THIEF))
+            {
+                SGameMng.I.uiScrp.countLife.text = (nhp - 1).ToString();
+                if (Input.GetKeyDown(KeyCode.Space))
+                    GM.NetworkManager.getInstance.SendMsg(string.Format("KINEMATIC:{0}", myIdx));
+            }
             Blind();
             if (!bStartup) KeyDown();
 
-            if (myMove != beforeMove && !bStartup)
+            if (myMove != beforeMove && !bStartup && !bhold)
             {
                 GM.NetworkManager.getInstance.SendMsg(string.Format("MOVE:{0}:{1}:{2}:{3}", myIdx, transform.position.x, transform.position.y, (int)myMove));
                 beforeMove = myMove;
@@ -78,7 +86,7 @@ public class SPlayerMove : MonoBehaviour
         else if (proper.Equals(PROPER.THIEF))
         {
             gameObject.tag = "Player";
-            nhp = 1;
+            nhp = 4;
         }
 
         else if (proper.Equals(PROPER.GENERAL))
@@ -124,10 +132,12 @@ public class SPlayerMove : MonoBehaviour
     {
         if (proper.Equals(PROPER.POLICE) && !bBlind)
         {
+            sprite.sortingOrder = 1;
             SGameMng.I.uiScrp.SkillUiActive();
             blindGame.SetActive(true);
             bBlind = true;
         }
+        else if(proper.Equals(PROPER.THIEF)) SGameMng.I.uiScrp.LifeActive();
         if (SGameMng.I.sTimer.Equals("2:45"))
         {
             bStartup = false;
@@ -146,25 +156,31 @@ public class SPlayerMove : MonoBehaviour
 
     void Move()
     {
-        if (myMove.Equals(MOVE_CONTROL.UP))
+        if (myMove.Equals(MOVE_CONTROL.UP) && !bhold && !bStartup)
         {
             //anim.Play("UP");
             transform.Translate(Vector3.up * fSpeed * Time.deltaTime);
         }
-        else if (myMove.Equals(MOVE_CONTROL.DOWN))
+        else if (myMove.Equals(MOVE_CONTROL.DOWN) && !bhold && !bStartup)
         {
             //anim.Play("DOWN");
             transform.Translate(Vector3.down * fSpeed * Time.deltaTime);
         }
-        else if (myMove.Equals(MOVE_CONTROL.LEFT))
+        else if (myMove.Equals(MOVE_CONTROL.LEFT) && !bhold && !bStartup)
         {
             //anim.Play("LEFT");
             transform.Translate(Vector3.left * fSpeed * Time.deltaTime);
         }
-        else if (myMove.Equals(MOVE_CONTROL.RIGHT))
+        else if (myMove.Equals(MOVE_CONTROL.RIGHT) && !bhold && !bStartup)
         {
             //anim.Play("RIGHT");
             transform.Translate(Vector3.right * fSpeed * Time.deltaTime);
         }
+    }
+
+    public void Hold()
+    {
+        if (!bhold) { colscrp.GetComponent<Collider2D>().isTrigger = true; }
+        else { colscrp.GetComponent<Collider2D>().isTrigger = false; }
     }
 }

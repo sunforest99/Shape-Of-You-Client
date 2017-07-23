@@ -28,6 +28,9 @@ public class SUi : MonoBehaviour
     UnityEngine.UI.Text contentSubTitle;
     [SerializeField]
     UnityEngine.UI.Text contentDesc;
+    [SerializeField]
+    GameObject LifeGame = null;
+    public UnityEngine.UI.Text countLife;
 
     void Start()
     {
@@ -85,4 +88,7 @@ public class SUi : MonoBehaviour
     public void GetSkill(string sKill) { skillui.text = sKill; }
     public void SkillUiActive() { KillGame.SetActive(true); }
     public void SkillUiReset() { KillGame.SetActive(false); }
+    public void LifeActive() { LifeGame.SetActive(true); }
+    public void LifeReset() { LifeGame.SetActive(false); }
+
 }

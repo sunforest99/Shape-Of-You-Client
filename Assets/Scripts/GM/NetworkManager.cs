@@ -72,6 +72,9 @@ namespace GM
         {
             if (checkNetwork())
             {
+                if (nickName.Equals("") || address.Equals(""))
+                    return;
+
                 Logout();       // 이중 접속 방지
 
                 /////
@@ -261,8 +264,23 @@ namespace GM
                     if (SGameMng.I.sTimer.Equals("2:45") && v_user[i].proper.Equals(PROPER.POLICE))
                     {
                         v_user[i].bStartup = false;
-                        break;
+                        //v_user[i].gameObject.transform.position = new Vector3(0, 0, 0);
                     }
+                }
+            }
+            else if (txt[0].Equals("KINEMATIC"))
+            {
+                for (int i = 0; i < v_user.Count; i++)
+                {
+                    if (v_user[i] != null)
+                        if (v_user[i].myIdx.Equals(int.Parse(txt[1])))
+                        {
+                            if (v_user[i].bhold){ v_user[i].bhold = false; v_user[i].rig2D.isKinematic = false; v_user[i].colscrp.GetComponent<BoxCollider2D>().isTrigger = true;}
+                            else if (!v_user[i].bhold && v_user[i].nhp > 1) { v_user[i].bhold = true; v_user[i].nhp -= 1; v_user[i].rig2D.isKinematic = true; }
+                            // 홀드
+                            v_user[i].Hold();
+                            break;
+                        }
                 }
             }
             else if (txt[0].Equals("ATTACK"))
@@ -356,6 +374,7 @@ namespace GM
                             {
                                 SGameMng.I.policeCount++;
                                 SGameMng.I.policeCountTxt.text = string.Format("{0}", SGameMng.I.policeCount);
+                                //v_user[i].gameObject.transform.position = new Vector3(0, 0, -30);
                             }
                             else
                             {

@@ -446,6 +446,8 @@ MonoBehaviour:
   - {r: 0.58431375, g: 0.64705884, b: 0.6509804, a: 1}
   - {r: 0.2, g: 0.28235295, b: 0.36078432, a: 1}
   isSkill: 0
+  bhold: 0
+  rig2D: {fileID: 50583647464623290}
   myMove: 0
   beforeMove: 0
   proper: 0
