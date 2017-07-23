@@ -389,7 +389,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerScrp: {fileID: 114822704856055868}
-  colColor: {fileID: 212279862316740718}
 --- !u!114 &114704547996563134
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -433,7 +432,7 @@ MonoBehaviour:
   - {r: 0.60784316, g: 0.34901962, b: 0.7137255, a: 1}
   - {r: 0.90588236, g: 0.29803923, b: 0.23529412, a: 1}
   - {r: 0.58431375, g: 0.64705884, b: 0.6509804, a: 1}
-  - {r: 0.23529412, g: 0.3137255, b: 0.39607844, a: 1}
+  - {r: 0.2, g: 0.28235295, b: 0.36078432, a: 1}
   isSkill: 0
   myMove: 0
   beforeMove: 0
@@ -453,7 +452,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerScrp: {fileID: 114822704856055868}
-  colColor: {fileID: 212896445480278160}
 --- !u!212 &212071261601086176
 SpriteRenderer:
   m_ObjectHideFlags: 1
