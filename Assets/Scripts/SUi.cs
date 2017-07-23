@@ -33,7 +33,7 @@ public class SUi : MonoBehaviour
     {
         SGameMng.I.bStartCheck = false;
     }
-    
+
     void Update()
     {
         timer.text = SGameMng.I.sTimer;
@@ -81,7 +81,7 @@ public class SUi : MonoBehaviour
 
         contentAnim.SetTrigger("Content");
     }
-    
+
     public void GetSkill(string sKill) { skillui.text = sKill; }
     public void SkillUiActive() { KillGame.SetActive(true); }
     public void SkillUiReset() { KillGame.SetActive(false); }

@@ -53,7 +53,7 @@ public class SGameMng : MonoBehaviour
     GameObject[] MapGame = null;
 
     public SUi uiScrp;
-   
+
     public string sTimer = "READY";
     public bool bStartCheck;
     public int thiefCount = 0;
@@ -93,7 +93,7 @@ public class SGameMng : MonoBehaviour
 
     [SerializeField]
     Animator resultAnim;
-    
+
     [SerializeField]
     GameObject mvpObj;
 
@@ -195,7 +195,7 @@ public class SGameMng : MonoBehaviour
         }
         resultAnim.SetTrigger("RESULT");
     }
-    
+
     IEnumerator mvpOpen(float time)
     {
         yield return new WaitForSeconds(time);

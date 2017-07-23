@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 4099097694700640}
   - component: {fileID: 212896445480278160}
   - component: {fileID: 61687100024365320}
-  - component: {fileID: 114877968203544632}
+  - component: {fileID: 114023888109773932}
   m_Layer: 10
   m_Name: Skill
   m_TagString: Skill
@@ -215,7 +215,7 @@ Rigidbody2D:
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!61 &61040649883953052
@@ -377,6 +377,18 @@ TrailRenderer:
     textureMode: 0
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
+--- !u!114 &114023888109773932
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1664481399750844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39d52713387b9bf4eba568212daeddea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerScrp: {fileID: 114822704856055868}
 --- !u!114 &114503829642901966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -440,18 +452,6 @@ MonoBehaviour:
   color: 0
   WatchScrp: {fileID: 0}
   sprite: {fileID: 212258681561516700}
---- !u!114 &114877968203544632
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1664481399750844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39d52713387b9bf4eba568212daeddea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerScrp: {fileID: 114822704856055868}
 --- !u!212 &212071261601086176
 SpriteRenderer:
   m_ObjectHideFlags: 1

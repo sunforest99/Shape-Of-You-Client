@@ -22,12 +22,13 @@ namespace GM
     {
         static Socket socket = null;
         public string address = "127.0.0.1";   // 주소, 서버 주소와 같게 할 것
+        string version = "1.1.0";
         int port = 10000;               // 포트 번호, 서버포트와 같게 할 것
         byte[] buf = new byte[4096];
         int recvLen = 0;
         public bool isAdmin = false;
 
-        public GameObject nowLoadingWindow;
+        public GameObject errorWindow;
 
         public string nickName;
         public List<SPlayerMove> v_user = new List<SPlayerMove>();
@@ -36,6 +37,10 @@ namespace GM
 
         public SoundManager _sound;
         static NetworkManager _instance;
+
+        [SerializeField]
+        UnityEngine.UI.Text versionTxt;
+
         public static NetworkManager getInstance
         {
             get
@@ -49,6 +54,7 @@ namespace GM
             Screen.SetResolution(1280, 720, false);
             DontDestroyOnLoad(this);
             _instance = this;
+            versionTxt.text = "ver " + version;
         }
 
         //void Update()
@@ -64,42 +70,46 @@ namespace GM
          */
         public void Login()
         {
-            nowLoadingWindow.SetActive(true);
-
             if (checkNetwork())
             {
                 Logout();       // 이중 접속 방지
 
-                IPAddress serverIP = IPAddress.Parse(address);
-                int serverPort = Convert.ToInt32(port);
-                socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendTimeout, 10000);      // 송신 제한시간 10초
-                socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, 10000);   // 수신 제한시간 10초
-
-                // 서버가 닫혀 있을것을 대비하여 예외처리
-                try
-                {
-                    socket.Connect(new IPEndPoint(serverIP, serverPort));
-                    StartCoroutine("PacketProc");
-
-                    nowLoadingWindow.SetActive(true);
-                    SceneManager.LoadScene("InGame");
-                    _sound.readyBGM();
-                }
-                catch (SocketException err)
-                {
-                    Debug.Log("서버가 닫혀있습니다. : " + err.ToString());
-                    Logout();
-                }
-                catch (Exception ex)
-                {
-                    Debug.Log("ERROR 개반자에게 문의 : " + ex.ToString());
-                    Logout();
-                }
+                /////
+                LoadingManager.LoadScene("InGame");
             }
             else
             {
-                nowLoadingWindow.SetActive(false);
+                errorWindow.SetActive(true);
+            }
+        }
+
+        public void Con()
+        {
+            IPAddress serverIP = IPAddress.Parse(address);
+            int serverPort = Convert.ToInt32(port);
+            socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendTimeout, 10000);      // 송신 제한시간 10초
+            socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, 10000);   // 수신 제한시간 10초
+
+            // 서버가 닫혀 있을것을 대비하여 예외처리
+            try
+            {
+                socket.Connect(new IPEndPoint(serverIP, serverPort));
+                StartCoroutine("PacketProc");
+
+                _sound.readyBGM();
+            }
+            catch (SocketException err)
+            {
+                Debug.Log("서버가 닫혀있습니다. : " + err.ToString());
+                errorWindow.SetActive(true);
+                Logout();
+            }
+            catch (Exception ex)
+            {
+                Debug.Log("ERROR 개반자에게 문의 : " + ex.ToString());
+                errorWindow.SetActive(true);
+                Logout();
             }
         }
 
@@ -109,7 +119,11 @@ namespace GM
         public void Logout()
         {
             if (socket != null && socket.Connected)
+            {
                 socket.Close();
+
+                SceneManager.LoadScene("Login");
+            }
             StopCoroutine("PacketProc");
         }
 
@@ -425,15 +439,11 @@ namespace GM
             }
             else if (txt[0].Equals("CONNECT"))
             {
-                SendMsg(string.Format("LOGIN:{0}", nickName));
+                SendMsg(string.Format("LOGIN:{0}:{1}", nickName, version));
             }
             else if (txt[0].Equals("WAIT"))
             {
-                for (int i = 0; i < v_user.Count; i++)
-                {
-                    if (v_user[i].myIdx.Equals(v_user.Count - 1))
-                        SceneManager.LoadScene("Login");
-                }
+                SceneManager.LoadScene("Login");
                 //SGameMng.I.MapCtrl(int.Parse(txt[1]));
                 //_sound.gameBGM();
                 //v_user[v_user.Count - 1].gameObject.SetActive(false);
@@ -459,7 +469,6 @@ namespace GM
          */
         public void LogOutBT()
         {
-            nowLoadingWindow.SetActive(true);
             OnDestroy();
             SceneManager.LoadScene("Intro");
         }

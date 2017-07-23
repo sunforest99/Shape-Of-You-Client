@@ -104,9 +104,9 @@ public class SPlayerMove : MonoBehaviour
         //colscrp.transform.localScale = new Vector2(3f, 3f);
         //colscrp.SetColor();
         colGame.SetActive(true);
-        yield return new WaitForSeconds(1f);
-        isSkill = false;
+        yield return new WaitForSeconds(2f);
         colGame.SetActive(false);
+        isSkill = false;
         //colscrp.transform.localScale = new Vector2(1f, 1f);
         //colscrp.ColorReset();
     }
