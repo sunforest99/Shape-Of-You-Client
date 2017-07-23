@@ -342,11 +342,9 @@ namespace GM
             }
             else if (txt[0].Equals("PROPER"))
             {
-
                 int idx = int.Parse(txt[1]);
                 for (int i = 0; i < v_user.Count; i++)
                 {
-
                     if (v_user[i] != null)
                         if (v_user[i].myIdx.Equals(idx))
                         {
@@ -395,6 +393,7 @@ namespace GM
                 for (int i = 0; i < v_user.Count; i++)
                 {
                     v_user[i].transform.localPosition = Vector3.zero;
+                    v_user[i].myMove = MOVE_CONTROL.STOP;
                 }
             }
             else if (txt[0].Equals("USER"))

@@ -51,7 +51,7 @@ public class SPlayerMove : MonoBehaviour
                 GM.NetworkManager.getInstance.SendMsg(string.Format("MOVE:{0}:{1}:{2}:{3}", myIdx, transform.position.x, transform.position.y, (int)myMove));
                 beforeMove = myMove;
             }
-            if (Input.GetKeyDown(KeyCode.Space) && proper.Equals(PROPER.POLICE) && !isSkill && !bStartup)
+            if (Input.GetKeyDown(KeyCode.Space) && proper.Equals(PROPER.POLICE) && !isSkill && !bStartup && !SGameMng.I.isWritting)
             {
                 if (nhp <= 1)
                 {

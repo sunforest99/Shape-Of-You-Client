@@ -20,19 +20,19 @@ public class SWatching : MonoBehaviour
     {
         if (!bDie)
         {
-            if (Input.GetKey(KeyCode.UpArrow))
+            if (Input.GetKey(KeyCode.UpArrow) && transform.localPosition.y < 33f)
             {
                 transform.Translate(Vector3.up * 12f * Time.deltaTime);
             }
-           if (Input.GetKey(KeyCode.DownArrow))
+            if (Input.GetKey(KeyCode.DownArrow) && transform.localPosition.y > -33f)
             {
                 transform.Translate(Vector3.down * 12f * Time.deltaTime);
             }
-            if(Input.GetKey(KeyCode.LeftArrow))
+            if (Input.GetKey(KeyCode.LeftArrow) && transform.localPosition.x > -55f)
             {
                 transform.Translate(Vector3.left * 12f * Time.deltaTime);
             }
-            if(Input.GetKey(KeyCode.RightArrow))
+            if (Input.GetKey(KeyCode.RightArrow) && transform.localPosition.x < 55f)
             {
                 transform.Translate(Vector3.right * 12f * Time.deltaTime);
             }
