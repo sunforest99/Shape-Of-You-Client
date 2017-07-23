@@ -242,6 +242,14 @@ namespace GM
             else if (txt[0].Equals("TIME"))
             {
                 SGameMng.I.sTimer = string.Format("{0,00}:{1,00}", int.Parse(txt[1]) / 60, int.Parse(txt[1]) % 60);
+                for (int i = 0; i < v_user.Count; i++)
+                {
+                    if (SGameMng.I.sTimer.Equals("2:45") && v_user[i].proper.Equals(PROPER.POLICE))
+                    {
+                        v_user[i].bStartup = false;
+                        break;
+                    }
+                }
             }
             else if (txt[0].Equals("ATTACK"))
             {
@@ -352,6 +360,7 @@ namespace GM
             {
                 SGameMng.I.OpenResult((PROPER)int.Parse(txt[1]), int.Parse(txt[2]));
                 SGameMng.I.sTimer = "READY";
+                SGameMng.I.bStartCheck = false;
                 //// 게임  끝남
                 //for (int i = 0; i < v_user.Count; i++)
                 //{

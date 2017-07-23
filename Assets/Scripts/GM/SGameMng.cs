@@ -226,4 +226,14 @@ public class SGameMng : MonoBehaviour
     {
         StartCoroutine("mvpClose");
     }
+    public bool isWritting = false;
+
+    public void imWritting()
+    {
+        isWritting = true;
+    }
+    public void doneWritting()
+    {
+        isWritting = false;
+    }
 }

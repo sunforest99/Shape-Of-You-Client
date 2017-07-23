@@ -101,17 +101,14 @@ public class SPlayerMove : MonoBehaviour
     IEnumerator Big()
     {
         isSkill = true;
-        colscrp.transform.localScale = new Vector2(2f, 2f);
-        colscrp.SetColor();
+        //colscrp.transform.localScale = new Vector2(3f, 3f);
+        //colscrp.SetColor();
+        colGame.SetActive(true);
         yield return new WaitForSeconds(1f);
-        StartCoroutine("Small");
-    }
-    IEnumerator Small()
-    {
         isSkill = false;
-        colscrp.transform.localScale = new Vector2(1f, 1f);
-        colscrp.ColorReset();
-        yield return null;
+        colGame.SetActive(false);
+        //colscrp.transform.localScale = new Vector2(1f, 1f);
+        //colscrp.ColorReset();
     }
 
     public void ChangeColor()
@@ -123,12 +120,10 @@ public class SPlayerMove : MonoBehaviour
         }
     }
 
-
     void Blind()
     {
         if (proper.Equals(PROPER.POLICE) && !bBlind)
         {
-            bStartup = true;
             SGameMng.I.uiScrp.SkillUiActive();
             blindGame.SetActive(true);
             bBlind = true;

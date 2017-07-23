@@ -10,6 +10,7 @@ TagManager:
   - Pcolider
   - DEnter
   - col
+  - Skill
   layers:
   - Default
   - TransparentFX
