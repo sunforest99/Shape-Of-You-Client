@@ -13,6 +13,7 @@ public class Reset : MonoBehaviour
         {
             if (!GM.NetworkManager.getInstance.v_user[i].Equals(null))
             {
+                GM.NetworkManager.getInstance.v_user[i].sprite.sortingOrder = 0;
                 GM.NetworkManager.getInstance.v_user[i].gameObject.SetActive(true);
                 GM.NetworkManager.getInstance.v_user[i].gameObject.tag = "General";
                 GM.NetworkManager.getInstance.v_user[i].isLive = true;

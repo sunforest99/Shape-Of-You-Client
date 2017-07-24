@@ -1939,10 +1939,10 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 21300000, guid: dc599858472a7a142ac9aeea9b5e4a00,
+    m_HighlightedSprite: {fileID: 21300000, guid: 191e4363189795d4fa58d32218d2ec56,
       type: 3}
-    m_PressedSprite: {fileID: 21300000, guid: dc599858472a7a142ac9aeea9b5e4a00, type: 3}
-    m_DisabledSprite: {fileID: 21300000, guid: dc599858472a7a142ac9aeea9b5e4a00, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: 191e4363189795d4fa58d32218d2ec56, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: 191e4363189795d4fa58d32218d2ec56, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -2111,7 +2111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3275862, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.375, g: 0.016544111, b: 0.016544111, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2124,7 +2124,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 38
+    m_MaxSize: 36
     m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -2708,6 +2708,9 @@ MonoBehaviour:
   - {fileID: 986812427}
   - {fileID: 933003880}
   - {fileID: 2028114604}
+  GameCanvas: {fileID: 1523339223}
+  noticePrefab: {fileID: 1102217176801796, guid: a5d116b6e16340b4aa109921ec090aaf,
+    type: 2}
   uiScrp: {fileID: 1564758762}
   sTimer: READY
   bStartCheck: 0

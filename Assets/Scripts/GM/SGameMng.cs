@@ -48,9 +48,15 @@ public class SGameMng : MonoBehaviour
     void Awake()
     {
         _Instance = this;
+        v_notice.Clear();
     }
     [SerializeField]
     GameObject[] MapGame = null;
+    [SerializeField]
+    GameObject GameCanvas = null;
+    [SerializeField]
+    GameObject noticePrefab = null;
+    List<Notice> v_notice = new List<Notice>();
 
     public SUi uiScrp;
 
@@ -96,6 +102,37 @@ public class SGameMng : MonoBehaviour
 
     [SerializeField]
     GameObject mvpObj;
+
+    public void noticeOnf(string desc)
+    {
+        int idx = -1;
+        int floor = 0;
+        for (int i = 0; i < v_notice.Count; i++)
+        {
+            if (!v_notice[i].gameObject.activeSelf)
+            {
+                if (idx.Equals(-1))
+                    idx = i;
+            }
+            else
+                floor++;
+        }
+
+        if (idx < v_notice.Count && !idx.Equals(-1))
+        {
+            v_notice[idx].descTxt.text = desc;
+            v_notice[idx].gameObject.transform.localPosition = new Vector2(0, 230 - 40 * floor);
+            v_notice[idx].gameObject.SetActive(true);
+        }
+        else
+        {
+            GameObject obj = Instantiate(noticePrefab, GameCanvas.transform) as GameObject;
+            obj.transform.localPosition = new Vector2(0, 240 - 40 * floor);
+            Notice notice = obj.GetComponent<Notice>();
+            notice.descTxt.text = desc;
+            v_notice.Add(notice);
+        }
+    }
 
     public void OpenResult(PROPER whoWin, int mvpIdx)
     {

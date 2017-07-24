@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 61483769548835682}
   - component: {fileID: 50583647464623290}
   - component: {fileID: 114704547996563134}
+  - component: {fileID: 95759027857224022}
   m_Layer: 8
   m_Name: rect_0
   m_TagString: General
@@ -135,13 +136,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1664481399750844}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 4253419588031480}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
 --- !u!4 &4253419588031480
 Transform:
   m_ObjectHideFlags: 1
@@ -293,6 +294,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3, y: 3}
   m_EdgeRadius: 0
+--- !u!95 &95759027857224022
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1016580985380828}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 13720d3719d50ff4b8d9e83aaa8cfb5c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!96 &96901469692260370
 TrailRenderer:
   serializedVersion: 2
@@ -454,6 +472,7 @@ MonoBehaviour:
   color: 0
   WatchScrp: {fileID: 0}
   sprite: {fileID: 212258681561516700}
+  anim: {fileID: 95759027857224022}
 --- !u!212 &212071261601086176
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -647,7 +666,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: e80944db465e9804883b5c45af89ea81, type: 3}
-  m_Color: {r: 0.9632353, g: 0.60202205, b: 0.8038033, a: 0.853}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.853}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

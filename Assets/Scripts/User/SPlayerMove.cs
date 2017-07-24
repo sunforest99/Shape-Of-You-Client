@@ -29,8 +29,10 @@ public class SPlayerMove : MonoBehaviour
     public COLOR color = COLOR.WHITE;
 
     public SWatching WatchScrp = null;
+    public SpriteRenderer sprite = null;
+
     [SerializeField]
-    SpriteRenderer sprite = null;
+    Animator anim;
 
     void Start()
     {
@@ -48,7 +50,7 @@ public class SPlayerMove : MonoBehaviour
             else if (proper.Equals(PROPER.THIEF))
             {
                 SGameMng.I.uiScrp.countLife.text = (nhp - 1).ToString();
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.Space) && !SGameMng.I.isWritting)
                     GM.NetworkManager.getInstance.SendMsg(string.Format("KINEMATIC:{0}", myIdx));
             }
             Blind();
@@ -61,7 +63,7 @@ public class SPlayerMove : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.Space) && proper.Equals(PROPER.POLICE) && !isSkill && !bStartup && !SGameMng.I.isWritting)
             {
-                if (nhp <= 1)
+                if (nhp < 1)
                 {
                     GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}:{1}", myIdx, myIdx));
                     isLive = false;
@@ -101,7 +103,10 @@ public class SPlayerMove : MonoBehaviour
         nhp -= 1;
 
         if (nhp >= 0)
+        {
+            anim.SetTrigger("Attack");
             StartCoroutine("Big");
+        }
         else nhp = 0;
 
     }
@@ -111,10 +116,12 @@ public class SPlayerMove : MonoBehaviour
         isSkill = true;
         //colscrp.transform.localScale = new Vector2(3f, 3f);
         //colscrp.SetColor();
+        rig2D.isKinematic = true;
         colGame.SetActive(true);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         colGame.SetActive(false);
         isSkill = false;
+        rig2D.isKinematic = false;
         //colscrp.transform.localScale = new Vector2(1f, 1f);
         //colscrp.ColorReset();
     }
@@ -137,7 +144,7 @@ public class SPlayerMove : MonoBehaviour
             blindGame.SetActive(true);
             bBlind = true;
         }
-        else if(proper.Equals(PROPER.THIEF)) SGameMng.I.uiScrp.LifeActive();
+        else if (proper.Equals(PROPER.THIEF)) SGameMng.I.uiScrp.LifeActive();
         if (SGameMng.I.sTimer.Equals("2:45"))
         {
             bStartup = false;
@@ -147,10 +154,10 @@ public class SPlayerMove : MonoBehaviour
 
     void KeyDown()
     {
-        if (Input.GetKey(KeyCode.UpArrow)) myMove = MOVE_CONTROL.UP;
-        else if (Input.GetKey(KeyCode.LeftArrow)) myMove = MOVE_CONTROL.LEFT;
-        else if (Input.GetKey(KeyCode.RightArrow)) myMove = MOVE_CONTROL.RIGHT;
-        else if (Input.GetKey(KeyCode.DownArrow)) myMove = MOVE_CONTROL.DOWN;
+        if (Input.GetKey(KeyCode.UpArrow) && !SGameMng.I.isWritting) myMove = MOVE_CONTROL.UP;
+        else if (Input.GetKey(KeyCode.LeftArrow) && !SGameMng.I.isWritting) myMove = MOVE_CONTROL.LEFT;
+        else if (Input.GetKey(KeyCode.RightArrow) && !SGameMng.I.isWritting) myMove = MOVE_CONTROL.RIGHT;
+        else if (Input.GetKey(KeyCode.DownArrow) && !SGameMng.I.isWritting) myMove = MOVE_CONTROL.DOWN;
         else myMove = MOVE_CONTROL.STOP;
     }
 

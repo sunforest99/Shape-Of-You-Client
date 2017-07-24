@@ -22,7 +22,7 @@ namespace GM
     {
         static Socket socket = null;
         public string address = "127.0.0.1";   // 주소, 서버 주소와 같게 할 것
-        string version = "1.1.0";
+        string version = "1.2.0";
         int port = 10000;               // 포트 번호, 서버포트와 같게 할 것
         byte[] buf = new byte[4096];
         int recvLen = 0;
@@ -40,7 +40,7 @@ namespace GM
 
         [SerializeField]
         UnityEngine.UI.Text versionTxt;
-
+        
         public static NetworkManager getInstance
         {
             get
@@ -275,7 +275,7 @@ namespace GM
                     if (v_user[i] != null)
                         if (v_user[i].myIdx.Equals(int.Parse(txt[1])))
                         {
-                            if (v_user[i].bhold){ v_user[i].bhold = false; v_user[i].rig2D.isKinematic = false; v_user[i].colscrp.GetComponent<BoxCollider2D>().isTrigger = true;}
+                            if (v_user[i].bhold) { v_user[i].bhold = false; v_user[i].rig2D.isKinematic = false; v_user[i].colscrp.GetComponent<BoxCollider2D>().isTrigger = true; }
                             else if (!v_user[i].bhold && v_user[i].nhp > 1) { v_user[i].bhold = true; v_user[i].nhp -= 1; v_user[i].rig2D.isKinematic = true; }
                             // 홀드
                             v_user[i].Hold();
@@ -338,6 +338,16 @@ namespace GM
                                     }
                                 }
                                 SGameMng.I.uiScrp.imdie(tName);
+                            }
+
+                            if (!v_user[i].proper.Equals(PROPER.GENERAL))
+                            {
+                                string type = "";
+                                if (v_user[i].proper.Equals(PROPER.THIEF))
+                                    type = "도둑";
+                                else
+                                    type = "경찰";
+                                SGameMng.I.noticeOnf(string.Format("{0} [{1}]님이 사망하셨습니다 !", type, v_user[i].nickName));
                             }
                             break;
                         }
