@@ -17,7 +17,7 @@ public class Reset : MonoBehaviour
                 GM.NetworkManager.getInstance.v_user[i].gameObject.SetActive(true);
                 GM.NetworkManager.getInstance.v_user[i].gameObject.tag = "General";
                 GM.NetworkManager.getInstance.v_user[i].isLive = true;
-                GM.NetworkManager.getInstance.v_user[i].nhp = 4;
+                GM.NetworkManager.getInstance.v_user[i].nhp = 2;
                 GM.NetworkManager.getInstance.v_user[i].pos = new Vector2(0f, 0f);
                 GM.NetworkManager.getInstance.v_user[i].bBlind = false;
                 GM.NetworkManager.getInstance.v_user[i].bhold = false;

@@ -34,12 +34,15 @@ public class SPlayerMove : MonoBehaviour
     [SerializeField]
     Animator anim;
 
+    public TextMesh txtMesh;
+
     void Start()
     {
         fSpeed = 9f;
         nhp = 1;
         SetUp();
         WatchScrp = Camera.main.GetComponent<SWatching>();
+        txtMesh.text = nickName;
     }
 
     void Update()
@@ -88,7 +91,7 @@ public class SPlayerMove : MonoBehaviour
         else if (proper.Equals(PROPER.THIEF))
         {
             gameObject.tag = "Player";
-            nhp = 4;
+            nhp = 2;
         }
 
         else if (proper.Equals(PROPER.GENERAL))

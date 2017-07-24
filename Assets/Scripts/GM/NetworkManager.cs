@@ -22,7 +22,7 @@ namespace GM
     {
         static Socket socket = null;
         public string address = "127.0.0.1";   // 주소, 서버 주소와 같게 할 것
-        string version = "1.2.0";
+        string version = "1.2.1";
         int port = 10000;               // 포트 번호, 서버포트와 같게 할 것
         byte[] buf = new byte[4096];
         int recvLen = 0;
@@ -40,7 +40,7 @@ namespace GM
 
         [SerializeField]
         UnityEngine.UI.Text versionTxt;
-        
+
         public static NetworkManager getInstance
         {
             get
@@ -399,6 +399,10 @@ namespace GM
             }
             else if (txt[0].Equals("DONE"))
             {
+                for (int i = 0; i < v_user.Count; i++)
+                    v_user[i].txtMesh.text = v_user[i].nickName;
+
+                _sound.readyBGM();
                 SGameMng.I.OpenResult((PROPER)int.Parse(txt[1]), int.Parse(txt[2]));
                 SGameMng.I.sTimer = "READY";
                 SGameMng.I.bStartCheck = false;
@@ -424,6 +428,7 @@ namespace GM
                     v_user[i].transform.localPosition = Vector3.zero;
                     v_user[i].myMove = MOVE_CONTROL.STOP;
                 }
+                StartCoroutine("waitForNameShow");
             }
             else if (txt[0].Equals("USER"))
             {
@@ -478,6 +483,29 @@ namespace GM
                 //v_user[v_user.Count - 1].isLive = false;
             }
         }
+
+        IEnumerator waitForNameShow()
+        {
+            yield return new WaitForSeconds(1);
+
+            PROPER myProper = PROPER.GENERAL;
+
+            for (int i = 0; i < v_user.Count; i++)
+                if (v_user[i].isPlayer)
+                {
+                    myProper = v_user[i].proper;
+                    break;
+                }
+
+            for (int i = 0; i < v_user.Count; i++)
+            {
+                if (myProper.Equals(v_user[i].proper))
+                    v_user[i].txtMesh.text = v_user[i].nickName;
+                else
+                    v_user[i].txtMesh.text = "";
+            }
+        }
+
         /**
          * @brief 기기에서 접속을 끊었을때 
          */

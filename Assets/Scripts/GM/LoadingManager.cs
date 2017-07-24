@@ -66,7 +66,7 @@ public class LoadingManager : MonoBehaviour
 
             if (op.progress >= 0.9f)
             {
-                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, 1.1f, 0.002f);
+                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, 1.1f, 0.003f);
 
                 if (progressBar.fillAmount == 1.0f)
                 {

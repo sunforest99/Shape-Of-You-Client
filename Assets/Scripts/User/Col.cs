@@ -16,15 +16,12 @@ public class Col : MonoBehaviour
                 {
                     playerScrp.nhp = -1;
                     playerScrp.WatchScrp.GetLive(playerScrp.isLive);
+                    GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}:{1}", playerScrp.myIdx, col.GetComponent<Col>().playerScrp.myIdx));
                 }
                 if (col.CompareTag("Skill") && col.GetComponent<Col>().playerScrp.isSkill)
                 {
                     playerScrp.nhp = -1;
                     playerScrp.WatchScrp.GetLive(playerScrp.isLive);
-                }
-                if (playerScrp.nhp <= 0 && (col.CompareTag("Pcolider") || col.CompareTag("Skill")) && playerScrp)
-                {
-                    playerScrp.isLive = false;
                     GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}:{1}", playerScrp.myIdx, col.GetComponent<Col>().playerScrp.myIdx));
                 }
             }
@@ -39,7 +36,7 @@ public class Col : MonoBehaviour
     {
         if (SGameMng.I.bStartCheck)
         {
-            if (playerScrp.proper.Equals(PROPER.POLICE))     
+            if (playerScrp.proper.Equals(PROPER.POLICE))
             {
                 if (col.CompareTag("col")) { gameObject.GetComponent<Collider2D>().isTrigger = true; }
             }
@@ -72,7 +69,7 @@ public class Col : MonoBehaviour
         {
             if (playerScrp.proper.Equals(PROPER.POLICE))
             {
-                    if (col.gameObject.CompareTag("col")) { gameObject.GetComponent<Collider2D>().isTrigger = true; }
+                if (col.gameObject.CompareTag("col")) { gameObject.GetComponent<Collider2D>().isTrigger = true; }
             }
         }
     }
