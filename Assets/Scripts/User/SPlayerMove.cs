@@ -53,8 +53,11 @@ public class SPlayerMove : MonoBehaviour
             else if (proper.Equals(PROPER.THIEF))
             {
                 SGameMng.I.uiScrp.countLife.text = (nhp - 1).ToString();
-                if (Input.GetKeyDown(KeyCode.Space) && !SGameMng.I.isWritting)
+                if ((Input.GetKeyDown(KeyCode.Space) || SUi.mobileSpace ) && !SGameMng.I.isWritting)
+                {
+                    SUi.mobileSpace = false;
                     GM.NetworkManager.getInstance.SendMsg(string.Format("KINEMATIC:{0}", myIdx));
+                }
             }
             Blind();
             if (!bStartup) KeyDown();
@@ -64,8 +67,9 @@ public class SPlayerMove : MonoBehaviour
                 GM.NetworkManager.getInstance.SendMsg(string.Format("MOVE:{0}:{1}:{2}:{3}", myIdx, transform.position.x, transform.position.y, (int)myMove));
                 beforeMove = myMove;
             }
-            if (Input.GetKeyDown(KeyCode.Space) && proper.Equals(PROPER.POLICE) && !isSkill && !bStartup && !SGameMng.I.isWritting)
+            if ((Input.GetKeyDown(KeyCode.Space) || SUi.mobileSpace) && proper.Equals(PROPER.POLICE) && !isSkill && !bStartup && !SGameMng.I.isWritting)
             {
+                SUi.mobileSpace = false;
                 if (nhp < 1)
                 {
                     GM.NetworkManager.getInstance.SendMsg(string.Format("DIE:{0}:{1}", myIdx, myIdx));
@@ -157,10 +161,10 @@ public class SPlayerMove : MonoBehaviour
 
     void KeyDown()
     {
-        if (Input.GetKey(KeyCode.UpArrow) && !SGameMng.I.isWritting) myMove = MOVE_CONTROL.UP;
-        else if (Input.GetKey(KeyCode.LeftArrow) && !SGameMng.I.isWritting) myMove = MOVE_CONTROL.LEFT;
-        else if (Input.GetKey(KeyCode.RightArrow) && !SGameMng.I.isWritting) myMove = MOVE_CONTROL.RIGHT;
-        else if (Input.GetKey(KeyCode.DownArrow) && !SGameMng.I.isWritting) myMove = MOVE_CONTROL.DOWN;
+        if ((Input.GetKey(KeyCode.UpArrow) || SUi.mobileMove.Equals(MOVE_CONTROL.UP)) && !SGameMng.I.isWritting) myMove = MOVE_CONTROL.UP;
+        else if ((Input.GetKey(KeyCode.LeftArrow) || SUi.mobileMove.Equals(MOVE_CONTROL.LEFT)) && !SGameMng.I.isWritting) myMove = MOVE_CONTROL.LEFT;
+        else if ((Input.GetKey(KeyCode.RightArrow) || SUi.mobileMove.Equals(MOVE_CONTROL.RIGHT)) && !SGameMng.I.isWritting) myMove = MOVE_CONTROL.RIGHT;
+        else if ((Input.GetKey(KeyCode.DownArrow) || SUi.mobileMove.Equals(MOVE_CONTROL.DOWN)) && !SGameMng.I.isWritting) myMove = MOVE_CONTROL.DOWN;
         else myMove = MOVE_CONTROL.STOP;
     }
 

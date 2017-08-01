@@ -18,7 +18,7 @@ public class LoadingManager : MonoBehaviour
     {
         StartCoroutine(LoadScene());
 
-        switch (Random.Range(0, 6))
+        switch (Random.Range(0, 7))
         {
             case 0:
                 descTxt.text = "알고 계시나요? 도둑과 경찰의 색이 같으면 도둑은 닿기만 해도 죽습니다 !";
@@ -35,8 +35,11 @@ public class LoadingManager : MonoBehaviour
             case 4:
                 descTxt.text = "경찰 MVP 조건 : 많이 죽이고 공격을 최소한으로 사용했을 때 MVP 획득확률이 올라갑니다 !";
                 break;
+            case 5:
+                descTxt.text = "알고 계시나요? Shape-Of-You 서버/클라의 제작기간은 고삐리 둘이서 4일 걸렸어요 !!";
+                break;
             default:
-                descTxt.text = "알고 계시나요 ? Shape-Of-You 서버/클라의 제작기간은 고삐리 둘이서 4일 걸렸어요 !!";
+                descTxt.text = "알고 계시나요? Shape-Of-You는 모바일/윈도우 환경을 모두 지원합니다 !!";
                 break;
         }
     }
@@ -50,8 +53,6 @@ public class LoadingManager : MonoBehaviour
 
     IEnumerator LoadScene()
     {
-        bool once = false;
-
         yield return null;
         
         AsyncOperation op = SceneManager.LoadSceneAsync(nextScene);

@@ -32,9 +32,19 @@ public class SUi : MonoBehaviour
     GameObject LifeGame = null;
     public UnityEngine.UI.Text countLife;
 
+    [SerializeField]
+    GameObject mobileUi;
+
+    public static MOVE_CONTROL mobileMove = MOVE_CONTROL.STOP;
+    public static bool mobileSpace = false;
+
     void Start()
     {
         SGameMng.I.bStartCheck = false;
+
+#if UNITY_ANDROID
+        mobileUi.SetActive(true);
+#endif
     }
 
     void Update()
@@ -91,4 +101,56 @@ public class SUi : MonoBehaviour
     public void LifeActive() { LifeGame.SetActive(true); }
     public void LifeReset() { LifeGame.SetActive(false); }
 
+
+    public void keyUpDown()
+    {
+        mobileMove = MOVE_CONTROL.UP;
+    }
+    public void keyUpUp()
+    {
+        if (mobileMove.Equals(MOVE_CONTROL.UP))
+            mobileMove = MOVE_CONTROL.STOP;
+    }
+    public void keyLeftDown()
+    {
+        mobileMove = MOVE_CONTROL.LEFT;
+    }
+    public void keyLeftUp()
+    {
+        if (mobileMove.Equals(MOVE_CONTROL.LEFT))
+            mobileMove = MOVE_CONTROL.STOP;
+    }
+    public void keyRightDown()
+    {
+        mobileMove = MOVE_CONTROL.RIGHT;
+    }
+    public void keyRightUp()
+    {
+        if (mobileMove.Equals(MOVE_CONTROL.RIGHT))
+            mobileMove = MOVE_CONTROL.STOP;
+    }
+    public void keyDownDown()
+    {
+        mobileMove = MOVE_CONTROL.DOWN;
+    }
+    public void keyDownUp()
+    {
+        if (mobileMove.Equals(MOVE_CONTROL.DOWN))
+            mobileMove = MOVE_CONTROL.STOP;
+    }
+
+    public void keySpaceDown()
+    {
+        mobileSpace = true;
+    }
+
+
+    public void aaaaa()
+    {
+        Debug.Log("DD");
+    }
+    public void aaaaaaaaa()
+    {
+        Debug.Log("DDDDD");
+    }
 }

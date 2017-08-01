@@ -22,7 +22,7 @@ namespace GM
     {
         static Socket socket = null;
         public string address = "127.0.0.1";   // 주소, 서버 주소와 같게 할 것
-        string version = "1.2.1";
+        string version = "1.2.2";
         int port = 10000;               // 포트 번호, 서버포트와 같게 할 것
         byte[] buf = new byte[4096];
         int recvLen = 0;
@@ -51,7 +51,12 @@ namespace GM
 
         void Awake()
         {
+#if UNITY_ANDROID
+            Debug.Log("Unity Editor");
+#else
             Screen.SetResolution(1280, 720, false);
+#endif
+
             DontDestroyOnLoad(this);
             _instance = this;
             versionTxt.text = "ver " + version;
@@ -509,7 +514,7 @@ namespace GM
         /**
          * @brief 기기에서 접속을 끊었을때 
          */
-        void OnDestroy()
+        void Exit()
         {
             if (socket != null && socket.Connected)
             {
@@ -518,6 +523,23 @@ namespace GM
                 socket.Close();
             }
             StopCoroutine("PacketProc");
+        }
+        void OnDestroy()
+        {
+            Exit();
+        }
+
+        void OnApplicationQuit()
+        {
+#if UNITY_ANDROID
+            Exit();
+#endif
+        }
+        void OnApplicationPause(bool pauseStatus)
+        {
+#if UNITY_ANDROID
+            Exit();
+#endif
         }
 
         /**
