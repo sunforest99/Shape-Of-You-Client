@@ -44,6 +44,8 @@ public class SUi : MonoBehaviour
 
 #if UNITY_ANDROID
         mobileUi.SetActive(true);
+#elif UNITY_IPHONE
+		mobileUi.SetActive(true);
 #endif
     }
 

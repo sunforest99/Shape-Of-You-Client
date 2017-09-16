@@ -53,6 +53,8 @@ namespace GM
         {
 #if UNITY_ANDROID
             Debug.Log("Unity Editor");
+#elif UNITY_IPHONE
+			Debug.Log("Unity Editor");
 #else
             Screen.SetResolution(1280, 720, false);
 #endif
@@ -533,12 +535,16 @@ namespace GM
         {
 #if UNITY_ANDROID
             Exit();
+#elif UNITY_IPHONE
+			Exit();
 #endif
         }
         void OnApplicationPause(bool pauseStatus)
         {
 #if UNITY_ANDROID
             Exit();
+#elif UNITY_IPHONE
+			Exit();
 #endif
         }
 
