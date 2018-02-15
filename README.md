@@ -28,3 +28,7 @@ Shape of You 클라이언트
 <img src="img/Police.png">
 
 <img src="img/Thief.png">
+
+>맥에서 서버 실행할때 http://www.mono-project.com/download/stable/ 요고 다운받고
+파일위치로 들어가서
+$mono [파일이름]
