@@ -18,7 +18,7 @@ public class SPlayerMove : MonoBehaviour
     public bool bStartup;
     public float fSpeed;
     public Col colscrp = null;
-    public Color[] colorcls = null;
+    //public Color[] colorcls = null;
     public bool isSkill;
     public bool bhold;
     public Rigidbody2D rig2D = null;
@@ -138,7 +138,8 @@ public class SPlayerMove : MonoBehaviour
         for (int i = 0; i < (int)COLOR.E_MAX; i++)
         {
             if (i.Equals((int)color))
-                sprite.color = colorcls[i];
+                sprite.color = SGameMng.I.rectColor[i];     // 수정
+                //sprite.color = colorcls[i];
         }
     }
 

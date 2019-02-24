@@ -384,7 +384,13 @@ namespace GM
                         if (v_user[i].myIdx.Equals(idx))
                         {
                             v_user[i].proper = (PROPER)int.Parse(txt[2]);
-                            if (v_user[i].proper.Equals(PROPER.POLICE)) { v_user[i].gameObject.tag = "Pcolider"; v_user[i].fSpeed = 10f; v_user[i].bStartup = true; }
+                            if (v_user[i].proper.Equals(PROPER.POLICE))
+                            {
+                                v_user[i].gameObject.tag = "Pcolider";
+                                if (int.Parse(txt[4]) == 6) { v_user[i].fSpeed = 15f; }
+                                else {v_user[i].fSpeed = 10f;} 
+                                v_user[i].bStartup = true; 
+                            }
                             v_user[i].color = (COLOR)int.Parse(txt[3]);
 
                             if (v_user[i].proper.Equals(PROPER.POLICE))

@@ -50,6 +50,8 @@ public class SGameMng : MonoBehaviour
         _Instance = this;
         v_notice.Clear();
     }
+
+    public Color[] rectColor = null;
     [SerializeField]
     GameObject[] MapGame = null;
     [SerializeField]
@@ -72,6 +74,7 @@ public class SGameMng : MonoBehaviour
 
     public void MapCtrl(int nMapNum)
     {
+        Debug.Log(nMapNum);
         for (int i = 0; i < MapGame.Length; i++)
         {
             if (i.Equals(nMapNum))
