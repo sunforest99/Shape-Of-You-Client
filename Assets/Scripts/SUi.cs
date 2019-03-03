@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 인게임 UI 관련
+/// 스킬, 시간, 결과 등등
+/// </summary>
+
 public class SUi : MonoBehaviour
 {
     [SerializeField]
@@ -144,15 +149,5 @@ public class SUi : MonoBehaviour
     public void keySpaceDown()
     {
         mobileSpace = true;
-    }
-
-
-    public void aaaaa()
-    {
-        Debug.Log("DD");
-    }
-    public void aaaaaaaaa()
-    {
-        Debug.Log("DDDDD");
     }
 }

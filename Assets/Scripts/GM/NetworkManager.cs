@@ -22,7 +22,7 @@ namespace GM
     {
         static Socket socket = null;
         public string address = "127.0.0.1";   // 주소, 서버 주소와 같게 할 것
-        string version = "1.2.2";
+        string version = "1.2.3";
         int port = 10000;               // 포트 번호, 서버포트와 같게 할 것
         byte[] buf = new byte[4096];
         int recvLen = 0;
@@ -356,7 +356,7 @@ namespace GM
                                     type = "경찰";
                                 SGameMng.I.noticeOnf(string.Format("{0} [{1}]님이 사망하셨습니다 !", type, v_user[i].nickName));
                             }
-                            break;
+                            break;      
                         }
                     }
                 }
@@ -387,7 +387,7 @@ namespace GM
                             if (v_user[i].proper.Equals(PROPER.POLICE))
                             {
                                 v_user[i].gameObject.tag = "Pcolider";
-                                if (int.Parse(txt[4]) == 6) { v_user[i].fSpeed = 15f; }
+                                if (int.Parse(txt[4]) == 6  ) { v_user[i].fSpeed = 15f; }
                                 else {v_user[i].fSpeed = 10f;} 
                                 v_user[i].bStartup = true; 
                             }
@@ -547,6 +547,7 @@ namespace GM
         }
         void OnApplicationPause(bool pauseStatus)
         {
+
 #if UNITY_ANDROID
             Exit();
 #elif UNITY_IPHONE

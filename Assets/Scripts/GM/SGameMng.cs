@@ -57,7 +57,7 @@ public class SGameMng : MonoBehaviour
     [SerializeField]
     GameObject GameCanvas = null;
     [SerializeField]
-    GameObject noticePrefab = null;
+    GameObject noticePrefab = null;     // 킬 로그
     List<Notice> v_notice = new List<Notice>();
 
     public SUi uiScrp;
